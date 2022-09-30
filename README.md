@@ -18,4 +18,4 @@ Copyright is retained.
 Available on GitHub Pages as 
 [https://martin7th.github.io/xmlstarlet-notes/](https://martin7th.github.io/xmlstarlet-notes/ "xmlstarlet usage notes").
 
-Current version is 2022-09-05.
+Current version is 2022-09-30.
