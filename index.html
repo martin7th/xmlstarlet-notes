@@ -9,8 +9,8 @@
 
 <section id="sec-xmlstarlet-usage-notes">
 <h1 id="xmlstarlet-usage-notes" class="shew-tgt"><code>xmlstarlet</code> usage notes<a href="#xmlstarlet-usage-notes" class="permalink shew-hover"></a><div class="toolbar shew-hover h1"/></h1>
-<div id="doc-version" title=" 5 September 2022">
-version 2022-09-05
+<div id="doc-version" title="30 September 2022">
+version 2022-09-30 | <a href="news.html" title="Release news">news</a>
 </div>
 <div id="toc-short" class="nav">
 <p><em>Short table of contents</em></p>
@@ -65,10 +65,10 @@ version 2022-09-05
 <li><code>man xmlstarlet</code><br/>
 <code>xmlstarlet --help</code><br/>
 <code>xmlstarlet «command-name» --help</code></li>
-<li><code>xmlstarlet</code> on SourceForge<br/>
-(<em>HTTP</em>): <a href="http://xmlstar.sourceforge.net/">homepage</a> | <a href="http://xmlstar.sourceforge.net/docs.php">docs</a> | <a href="http://xmlstar.sourceforge.net/doc/UG/">user’s guide</a> (multi-page) | <a href="http://xmlstar.sourceforge.net/doc/xmlstarlet.txt">doc/xmlstarlet.txt</a> (more recent, with some examples)<br/>
-(<em>HTTPS</em>): <a href="https://sourceforge.net/p/xmlstar/news/">news</a> | <a href="http://xmlstar.sourceforge.net/source.php">source</a> | <a href="https://sourceforge.net/projects/xmlstar/files/xmlstarlet/">files</a> | <a href="https://sourceforge.net/p/xmlstar/discussion/">discussion</a></li>
-<li><code>xmlstarlet</code> source on Fossies: <a href="https://fossies.org/linux/www/xmlstarlet">fossies</a> – an accessible presentation of source, examples, and more</li>
+<li><code>xmlstarlet</code> on SourceForge: <a href="https://xmlstar.sourceforge.net/">homepage</a> | <a href="https://xmlstar.sourceforge.net/docs.php">docs</a> | <a href="https://xmlstar.sourceforge.net/doc/UG/">user’s guide</a> | <a href="https://sourceforge.net/p/xmlstar/news/">news</a> | <a href="http://xmlstar.sourceforge.net/source.php">source</a> | <a href="https://sourceforge.net/projects/xmlstar/files/xmlstarlet/">files</a> | <a href="https://sourceforge.net/p/xmlstar/discussion/">discussion</a> | <a href="https://sourceforge.net/p/xmlstar/bugs/">bugs</a><br/>
+<span class="caution"><strong>Caution</strong></span>: the <a href="https://xmlstar.sourceforge.net/doc/xmlstarlet.txt"><code>doc/xmlstarlet.txt</code></a> there is not the latest version as it doesn’t mention <a href="#edit-prev"><code>$prev</code></a>, <a href="#edit-opt-var"><code>--var</code></a>, <a href="#edit-opt-inplace"><code>-L (--inplace)</code></a>, and <a href="#transform-opt-embed"><code>-E (--embed)</code></a> – the user’s guide is still silent on these</li>
+<li><code>xmlstarlet</code> on <a href="https://fossies.org/about.html" title="Fossies - Fresh Open Source Software mainly for Internet, Engineering and Science">Fossies</a> – an accessible presentation of source, examples, and more:<br/>
+<a href="https://fossies.org/linux/www/xmlstarlet"><code>xmlstarlet-1.6.1.tar.gz</code></a> contents | <a href="https://fossies.org/linux/xmlstarlet/doc/xmlstarlet-ug.html"><code>xmlstarlet</code> user’s guide</a> (1-page) | <a href="https://fossies.org/linux/xmlstarlet/doc/xmlstarlet.txt"><code>doc/xmlstarlet.txt</code></a> (latest version)</li>
 <li><code>xmlstarlet</code> forums on StackExchange: <a href="https://stackoverflow.com/questions/tagged/xmlstarlet">stackoverflow.com</a> | <a href="https://unix.stackexchange.com/questions/tagged/xmlstarlet">unix.stackexchange.com</a></li>
 </ul>
 <h4 id="selected-resources" class="shew-tgt">Selected resources<a href="#selected-resources" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#documentation"></a><span class="relnop shew-hover"></span></div></h4>
@@ -378,6 +378,9 @@ incubator
 process 20965 exiting</code></pre>
 <h3 id="global-options" class="shew-tgt">Global options and parameters<a href="#global-options" class="permalink shew-hover"></a><div class="toolbar shew-hover h3"><span class="relnop shew-hover"></span><a class="relprev shew-hover" href="#general-notes"></a><a class="relup shew-hover" href="#xmlstarlet-commands"></a><span class="relnop shew-hover"></span><span class="relnop shew-hover"></span></div></h3>
 <p>Global options go before the command, as in <code>xmlstarlet -q format file</code>.</p>
+<p>An input filename starting with <code>-</code> (dash) – unless it’s short for <code>stdin</code> – must be prefixed with <code>./</code> (dot slash) otherwise it will be parsed as an option, possibly causing <a href="#select"><code>select</code></a> (<span class="caution"><strong>Caution</strong></span>) to ignore the file.</p>
+<p>Beware of known bugs for filenames containing (<a href="https://sourceforge.net/p/xmlstar/bugs/123/" title="Invalid expression: '/​tmp/​foo's.nfo'">#123</a> ) <code>'</code> (single quote), or (<a href="https://sourceforge.net/p/xmlstar/bugs/110/" title="ed --inplace 'foo%20bar.xml' writes to 'foo bar.xml'">#110</a>) urlencoded characters, e.g. <code>%20</code>.</p>
+<p><em>See also</em>: <a href="#couldnt-read-file">couldn’t read file</a> | <a href="#failed-to-load-external-entity">failed to load external entity</a></p>
 <h4 id="global-opt-help" class="shew-tgt"><code>--help</code><a href="#global-opt-help" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#xmlstarlet-commands"></a><span class="relnop shew-hover"></span></div></h4>
 <p><code>xmlstarlet --help</code> shows the general usage reminder, <code>xmlstarlet «command» -h (--help)</code> the command-specific ditto.</p>
 <h4 id="global-opt-version" class="shew-tgt"><code>--version</code><a href="#global-opt-version" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#xmlstarlet-commands"></a><span class="relnop shew-hover"></span></div></h4>
@@ -1116,7 +1119,8 @@ xmlstarlet select -B -I -N ns3='https://www.example.com/ns/ns3' -t \
 <li>produces no terminal output unless there are error messages</li>
 <li>is ignored – sending output to <code>stdout</code> – if input is <code>stdin</code></li>
 <li>makes no backup of input</li>
-<li>is mentioned in <a href="http://xmlstar.sourceforge.net/doc/xmlstarlet.txt">doc/xmlstarlet.txt</a> but not in the user’s guide</li>
+<li>is mentioned in <a href="https://fossies.org/linux/xmlstarlet/doc/xmlstarlet.txt">doc/xmlstarlet.txt</a> but not in the user’s guide</li>
+<li>has a known bug for filenames containing urlencoded characters, e.g. <code>%20</code>, cf. <a href="#global-options">Global options and parameters</a></li>
 </ul>
 <h4 id="edit-opt-net" class="shew-tgt"><code>--net</code> - allow network access<a href="#edit-opt-net" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#edit"></a><span class="relnop shew-hover"></span></div></h4>
 <p><em>See also</em>: <a href="#global-opt-net">network access</a></p>
@@ -1180,9 +1184,9 @@ xmlstarlet edit --pf -O -N b='https://www.example.org/b' \
 <p><em>See also</em>: <a href="#edit-opt-update-expr"><code>-u (--update)</code></a></p>
 <h4 id="edit-prev" class="shew-tgt">Back reference <code>$prev</code> variable (aka <code>$xstar:prev</code>)<a href="#edit-prev" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#edit"></a><span class="relnop shew-hover"></span></div></h4>
 <p>The <code>$prev</code> (aka <code>$xstar:prev</code>) variable refers to the node created by the most recent <a href="#edit-opt-insert"><code>-i (--insert)</code></a>, <a href="#edit-opt-append"><code>-a (--append)</code></a>, or <a href="#edit-opt-subnode"><code>-s (--subnode)</code></a> option, which all define or redefine it. To reset <code>$prev</code> (to avoid a false match later) for example <code>-a '/..' -t elem -n nil</code> which fails as the root node has no parent.</p>
-<p><code>$prev</code> isn’t mentioned in the user’s guide; examples are given in <a href="http://xmlstar.sourceforge.net/doc/xmlstarlet.txt">doc/xmlstarlet.txt</a> and in this section.</p>
+<p><code>$prev</code> isn’t mentioned in the user’s guide; examples are given in <a href="https://fossies.org/linux/xmlstarlet/doc/xmlstarlet.txt">doc/xmlstarlet.txt</a> and in this section.</p>
 <h4 id="edit-opt-var" class="shew-tgt"><code>--var name 'xpath'</code><a href="#edit-opt-var" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#edit"></a><span class="relnop shew-hover"></span></div></h4>
-<p>The <code>--var name xpath</code> option to define an <code>xmlstarlet edit</code> variable is mentioned in <a href="http://xmlstar.sourceforge.net/doc/xmlstarlet.txt">doc/xmlstarlet.txt</a> but not in the user’s guide. It uses a different format than <code>select</code>’s <a href="#select-opt-var-equals"><code>--var</code></a>.</p>
+<p>The <code>--var name xpath</code> option to define an <code>xmlstarlet edit</code> variable is mentioned in <a href="https://fossies.org/linux/xmlstarlet/doc/xmlstarlet.txt">doc/xmlstarlet.txt</a> but not in the user’s guide. It uses a different format than <code>select</code>’s <a href="#select-opt-var-equals"><code>--var</code></a>.</p>
 <p>Examples:</p>
 <pre class="lang-sh"><code>xmlstarlet edit --inplace \
   --var T '//_:p[@class="eyg"] | //_:span[contains(@class,"eyg_")]' \
@@ -2101,7 +2105,7 @@ xsl:version     1.0</code></pre>
 <p><em>Links</em>: <a href="https://www.w3.org/TR/xml-stylesheet" title="Associating Style Sheets with XML documents 1.0"><code>&lt;?xml-stylesheet?&gt;</code></a> - W3C recommendation | <a href="https://www.w3.org/TR/1999/REC-xslt-19991116#section-Embedding-Stylesheets" title="W3C XSLT 1.0 recommendation">Embedding stylesheets</a> - W3C XSLT 1.0 Rec</p>
 <p>With an <code>e.xml</code> XML document containing an <code>&lt;?xml-stylesheet type="text/xml" href="e.xsl"?&gt;</code> <em>processing instruction</em> before the document element, the following command will run the XSLT stylesheet <code>e.xsl</code> on <code>e.xml</code>.</p>
 <pre class="lang-sh"><code>xmlstarlet tr -E e.xml &gt; output</code></pre>
-<p>This option is mentioned in <a href="http://xmlstar.sourceforge.net/doc/xmlstarlet.txt">doc/xmlstarlet.txt</a> but not in the user’s guide.</p>
+<p>This option is mentioned in <a href="https://fossies.org/linux/xmlstarlet/doc/xmlstarlet.txt">doc/xmlstarlet.txt</a> but not in the user’s guide.</p>
 <h4 id="transform-opt-show-ext" class="shew-tgt"><code>--show-ext</code> - show list of extensions<a href="#transform-opt-show-ext" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#transform"></a><span class="relnop shew-hover"></span></div></h4>
 <p>Prints a <a href="#appendix-a-xmlstarlet-xslt-extensions">list</a> of registered XSLT extensions to <code>stderr</code> and terminates.</p>
 <h4 id="transform-opt-val" class="shew-tgt"><code>--val</code> - allow validate against DTDs or schemas<a href="#transform-opt-val" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#transform"></a><span class="relnop shew-hover"></span></div></h4>
@@ -2360,12 +2364,17 @@ xmlstarlet edit \
 <li><a href="#edit-opt-insert">adding</a> a <code>text</code> node without a <code>-n (--name)</code> or <code>-v (--value)</code> clause?</li>
 <li><a href="#edit-opt-rename">renaming</a> without a <code>-v (--value)</code> clause?</li>
 </ul>
+<h4 id="couldnt-read-file" class="shew-tgt">couldn’t read file<a href="#couldnt-read-file" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#error-messages"></a><span class="relnop shew-hover"></span></div></h4>
+<p>See <a href="#failed-to-load-external-entity">failed to load external entity</a> (re <code>stdin</code>)</p>
 <h4 id="failed-to-load-external-entity" class="shew-tgt">failed to load external entity<a href="#failed-to-load-external-entity" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#error-messages"></a><span class="relnop shew-hover"></span></div></h4>
 <p>Triggered by:</p>
 <ul>
 <li>missing <a href="#global-opt-net"><code>--net</code></a> option</li>
 <li><a href="#global-param-uri"><code>uri</code></a> parameter using HTTPS protocol</li>
-<li>missing or inaccessible resource</li>
+<li>missing or inaccessible resource
+<ul>
+<li>if reading from <code>stdin</code> add a <code>-</code> (dash) to the command line to work around parsing issues, e.g. if <code>format</code>’s <a href="#format-opt-encode"><code>-e (--encode) «encoding»</code></a> is the last option (explanation: <code>«encoding»</code> mistaken for filename in <a href="https://fossies.org/linux/xmlstarlet/src/xml_format.c#l_270" title="Fossies - the Fresh Open Source Software Archive">src/xml_format.c#foProcess()</a>, similarly in <a href="https://fossies.org/linux/xmlstarlet/src/xml_validate.c#l_204" title="Fossies - the Fresh Open Source Software Archive">src/xml_validate.c#valParseOptions()</a>)</li>
+</ul></li>
 </ul>
 <h4 id="error-fixme-cant-delete-namespace-nodes" class="shew-tgt">FIXME: can’t delete namespace nodes<a href="#error-fixme-cant-delete-namespace-nodes" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#error-messages"></a><span class="relnop shew-hover"></span></div></h4>
 <p>See <a href="#namespaces-delete">Delete a namespace</a>.</p>
@@ -2529,29 +2538,29 @@ expand -t 16</code></pre>
 <p>Using <code>… -v 'date:date-time()' -b</code> (rather than <code>…='date:date-time()'</code>) to avoid <code>xmlstarlet select</code>’s <a href="#select-exslt-namespace-issue">EXSLT namespace issue</a>.</p>
 <p>Output:</p>
 <pre class="lang-none"><code># America/Vancouver
-dttodayL        2022-09-05T00:05:19-07:00
+dttodayL        2022-09-30T01:39:10-07:00
 tzoffset        -07:00
 tzseconds       -25200
-dttodayZ        2022-09-05T07:05:19+00:00
-dttoday2L       2022-09-05T00:05:19-07:00
+dttodayZ        2022-09-30T08:39:10+00:00
+dttoday2L       2022-09-30T01:39:10-07:00
 # Europe/Vatican
-dttodayL        2022-09-05T09:05:19+02:00
+dttodayL        2022-09-30T10:39:10+02:00
 tzoffset        +02:00
 tzseconds       7200
-dttodayZ        2022-09-05T07:05:19+00:00
-dttoday2L       2022-09-05T09:05:19+02:00
+dttodayZ        2022-09-30T08:39:10+00:00
+dttoday2L       2022-09-30T10:39:10+02:00
 # Asia/Manila
-dttodayL        2022-09-05T15:05:19+08:00
+dttodayL        2022-09-30T16:39:10+08:00
 tzoffset        +08:00
 tzseconds       28800
-dttodayZ        2022-09-05T07:05:19+00:00
-dttoday2L       2022-09-05T15:05:19+08:00
+dttodayZ        2022-09-30T08:39:10+00:00
+dttoday2L       2022-09-30T16:39:10+08:00
 # Pacific/Chatham
-dttodayL        2022-09-05T19:50:19+12:45
-tzoffset        +12:45
-tzseconds       45900
-dttodayZ        2022-09-05T07:05:19+00:00
-dttoday2L       2022-09-05T19:50:19+12:45</code></pre>
+dttodayL        2022-09-30T22:24:10+13:45
+tzoffset        +13:45
+tzseconds       49500
+dttodayZ        2022-09-30T08:39:10+00:00
+dttoday2L       2022-09-30T22:24:10+13:45</code></pre>
 <h4 id="use-setleading-and-settrailing" class="shew-tgt">Use <code>set:leading</code> and <code>set:trailing</code><a href="#use-setleading-and-settrailing" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#exslt"></a><span class="relnop shew-hover"></span></div></h4>
 <p><em>Links</em>: EXSLT <a href="https://exslt.github.io/set/index.html"><code>set</code> functions</a> on github.io</p>
 <p>Using an explicit namespace declaration <code>-N str='…'</code> to avoid <code>xmlstarlet select</code>’s <a href="#select-exslt-namespace-issue">EXSLT namespace issue</a>.</p>
@@ -3699,6 +3708,7 @@ Thanks,
 <ul class="level3">
 <li class="level3"><a href="#error-no-output-and-no-error">(No output and no error)</a></li>
 <li class="level3"><a href="#error-edit-usage-reminder">(<code>xmlstarlet edit</code> displays its usage reminder)</a></li>
+<li class="level3"><a href="#couldnt-read-file">couldn’t read file</a></li>
 <li class="level3"><a href="#failed-to-load-external-entity">failed to load external entity</a></li>
 <li class="level3"><a href="#error-fixme-cant-delete-namespace-nodes">FIXME: can’t delete namespace nodes</a></li>
 <li class="level3"><a href="#error-fixme-cant-move-namespace-nodes">FIXME: can’t move namespace nodes</a></li>

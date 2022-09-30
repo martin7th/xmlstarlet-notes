@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB">
+  <head>
+    <meta charset="utf-8"/>
+    <base href="https://martin7th.github.io/xmlstarlet-notes/"/>
+    <title>NEWS - xmlstarlet usage notes</title>
+    <link rel="stylesheet" href="index.css"/>
+  </head>
+  <body>
+    <section id="sec-news">
+      <h1 class="shew-tgt"><code>xmlstarlet-notes</code> news<a href="news.html#" class="permalink shew-hover"></a></h1>
+      <p>Link: <a href="">https://martin7th.github.io/xmlstarlet-notes/</a></p>
+      <h2 id="version-2022-09-30" class="shew-tgt">Version 2022-09-30<a href="news.html#version-2022-09-30" class="permalink shew-hover"></a></h2>
+      <h4 id="version-2022-09-30-users-guide-examples-source-code-forums">User’s guide, examples, source code, forums</h4>
+      <p><a href="#users-guide-examples-source-code-forums" title="section Documentation"><sup>(link)</sup></a> 2nd and 3rd list item replaced with:</p>
+      <ul>
+        <li><code>xmlstarlet</code> on SourceForge: <a href="https://xmlstar.sourceforge.net/">homepage</a> | <a href="https://xmlstar.sourceforge.net/docs.php">docs</a> | <a href="https://xmlstar.sourceforge.net/doc/UG/">user’s guide</a> | <a href="https://sourceforge.net/p/xmlstar/news/">news</a> | <a href="http://xmlstar.sourceforge.net/source.php">source</a> | <a href="https://sourceforge.net/projects/xmlstar/files/xmlstarlet/">files</a> | <a href="https://sourceforge.net/p/xmlstar/discussion/">discussion</a> | <a href="https://sourceforge.net/p/xmlstar/bugs/">bugs</a><br/>
+<span class="caution"><strong>Caution</strong></span>: the <a href="https://xmlstar.sourceforge.net/doc/xmlstarlet.txt"><code>doc/xmlstarlet.txt</code></a> there is not the latest version as it doesn’t mention <a href="#edit-prev"><code>$prev</code></a>, <a href="#edit-opt-var"><code>--var</code></a>, <a href="#edit-opt-inplace"><code>-L (--inplace)</code></a>, and <a href="#transform-opt-embed"><code>-E (--embed)</code></a> – the user’s guide is still silent on these</li>
+        <li><code>xmlstarlet</code> on <a href="https://fossies.org/about.html" title="Fossies - Fresh Open Source Software mainly for Internet, Engineering and Science">Fossies</a> – an accessible presentation of source, examples, and more:<br/>
+<a href="https://fossies.org/linux/www/xmlstarlet"><code>xmlstarlet-1.6.1.tar.gz</code></a> contents | <a href="https://fossies.org/linux/xmlstarlet/doc/xmlstarlet-ug.html"><code>xmlstarlet</code> user’s guide</a> (1-page) | <a href="https://fossies.org/linux/xmlstarlet/doc/xmlstarlet.txt"><code>doc/xmlstarlet.txt</code></a> (latest version)</li>
+      </ul>
+      <p>Links to <code>doc/xmlstarlet</code> changed to the latest version at Fossies here: <a href="#edit-prev"><code>$prev</code></a>, <a href="#edit-opt-var"><code>--var</code></a>, <a href="#edit-opt-inplace"><code>-L (--inplace)</code></a>, and <a href="#transform-opt-embed"><code>-E (--embed)</code></a>.</p>
+      <h4 id="version-2022-09-30-global-options">Global options and parameters</h4>
+      <p><a href="#global-options" title="section `xmlstarlet` commands"><sup>(link)</sup></a> Added after 1st paragraph:</p>
+      <p>An input filename starting with <code>-</code> (dash) – unless it’s short for <code>stdin</code> – must be prefixed with <code>./</code> (dot slash) otherwise it will be parsed as an option, possibly causing <a href="#select"><code>select</code></a> (<span class="caution"><strong>Caution</strong></span>) to ignore the file.</p>
+      <p>Beware of known bugs for filenames containing (<a href="https://sourceforge.net/p/xmlstar/bugs/123/" title="Invalid expression: '/​tmp/​foo's.nfo'">#123</a> ) <code>'</code> (single quote), or (<a href="https://sourceforge.net/p/xmlstar/bugs/110/" title="ed --inplace 'foo%20bar.xml' writes to 'foo bar.xml'">#110</a>) urlencoded characters, e.g. <code>%20</code>.</p>
+      <p><em>See also</em>: <a href="#couldnt-read-file">couldn’t read file</a> | <a href="#failed-to-load-external-entity">failed to load external entity</a></p>
+      <h4 id="version-2022-09-30-edit-opt-inplace"><code>-L (--inplace)</code> - edit input file in-place</h4>
+      <p><a href="#edit-opt-inplace" title="section Edit: `xmlstarlet edit`"><sup>(link)</sup></a> Added as last list item:</p>
+      <ul>
+        <li>has a known bug for filenames containing urlencoded characters, e.g. <code>%20</code>, cf. <a href="#global-options">Global options and parameters</a></li>
+      </ul>
+      <h4 id="version-2022-09-30-couldnt-read-file">couldn’t read file</h4>
+      <p>
+        <sup>(new entry)</sup>
+      </p>
+      <p>See <a href="#failed-to-load-external-entity">failed to load external entity</a> (re <code>stdin</code>)</p>
+      <h4 id="version-2022-09-30-failed-to-load-external-entity">failed to load external entity</h4>
+      <p><a href="#failed-to-load-external-entity" title="section 'Error messages'"><sup>(link)</sup></a> 3rd list item changed to:</p>
+      <ul>
+        <li>missing or inaccessible resource
+<ul><li>if reading from <code>stdin</code> add a <code>-</code> (dash) to the command line to work around parsing issues, e.g. if <code>format</code>’s <a href="#format-opt-encode"><code>-e (--encode) «encoding»</code></a> is the last option (explanation: <code>«encoding»</code> mistaken for filename in <a href="https://fossies.org/linux/xmlstarlet/src/xml_format.c#l_270" title="Fossies - the Fresh Open Source Software Archive">src/xml_format.c#foProcess()</a>, similarly in <a href="https://fossies.org/linux/xmlstarlet/src/xml_validate.c#l_204" title="Fossies - the Fresh Open Source Software Archive">src/xml_validate.c#valParseOptions()</a>)</li></ul></li>
+      </ul>
+      <h2 id="version-2022-09-05" class="shew-tgt">Version 2022-09-05<a href="news.html#version-2022-09-05" class="permalink shew-hover"></a></h2>
+      <p>Initial release.</p>
+    </section>
+  </body>
+</html>

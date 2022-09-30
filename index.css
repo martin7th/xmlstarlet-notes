@@ -112,3 +112,8 @@ div[class="dinkus1"] { margin-top: 1em; margin-bottom: 1em; }
 div[class="dinkus1"]::after { content: "o O o"; }
 div[class="dinkus2"]::after { content: "⁂"; }
 div[class="dinkus3"]::after { content: "⌘"; }
+
+section#sec-news { 
+  background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgCiAgd2lkdGg9IjI1NiIgaGVpZ2h0PSIyNTYiIHZpZXdCb3g9IjAgMCAyNTYgMjU2Ij4KICA8dGl0bGU+Q29kZSBpY29uPC90aXRsZT4KICA8c3R5bGUgdHlwZT0idGV4dC9jc3MiPi5jb21tb257IGZpbGw6bm9uZTsgc3Ryb2tlLXdpZHRoOjI7IHN0cm9rZTojOTliOyBzdHJva2UtbGluZWNhcDpyb3VuZDsgc3Ryb2tlLWxpbmVqb2luOnJvdW5kOyBzdHJva2Utb3BhY2l0eTowLjEyNTsgfTwvc3R5bGU+CiAgPGc+CiAgICA8cGF0aCBjbGFzcz0iY29tbW9uIiAKICAgICAgZD0iTTEsLTQgbC0yLDggbS0zLDAgbC00LC00IDQsLTQgbTgsMCBsNCw0IC00LDQiIAogICAgICB0cmFuc2Zvcm09InNjYWxlKDEyLDEyKSB0cmFuc2xhdGUoMTAsMTYpIi8+CiAgPC9nPgo8L3N2Zz4K);
+}
+
