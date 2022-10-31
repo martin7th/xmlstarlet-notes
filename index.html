@@ -9,8 +9,8 @@
 
 <section id="sec-xmlstarlet-usage-notes">
 <h1 id="xmlstarlet-usage-notes" class="shew-tgt"><code>xmlstarlet</code> usage notes<a href="#xmlstarlet-usage-notes" class="permalink shew-hover"></a><div class="toolbar shew-hover h1"/></h1>
-<div id="doc-version" title="30 September 2022">
-version 2022-09-30 | <a href="news.html" title="Release news">news</a>
+<div id="doc-version" title="31 October 2022">
+version 2022-10-31 | <a href="news.html" title="Release news">news</a>
 </div>
 <div id="toc-short" class="nav">
 <p><em>Short table of contents</em></p>
@@ -20,12 +20,12 @@ version 2022-09-30 | <a href="news.html" title="Release news">news</a>
 <li><a href="#namespaces">Namespaces</a> | <a href="#error-messages">Error messages</a> | <a href="#exslt">EXSLT</a><sup><strong>*</strong></sup> | <a href="#code-generation">Code generation</a><sup><strong>*</strong></sup><br/>
 </li>
 <li><a href="#appendix-a-xmlstarlet-xslt-extensions">A: XSLT extensions</a> | <a href="#appendix-b-xmlstarlet-news-summary">B: news summary</a> | <a href="#appendix-c-xmlstarlet-wishlist-ad-2003">C: wishlist AD 2003</a></li>
-<li><a href="#toc">Table of contents</a> <span class="in-toc-cloud">[ <a href="#in-toc-select">sel</a> <a href="#in-toc-edit">ed</a> <a href="#in-toc-c14n">c14n</a> <a href="#in-toc-pyx">pyx</a> <a href="#in-toc-transform">tr</a> <a href="#in-toc-namespaces">xmlns</a> <a href="#in-toc-exslt">exslt</a>]</span></li>
+<li><a href="#toc">Table of contents</a> <span class="in-toc-cloud">[ <a href="#in-toc-select">sel</a> <a href="#in-toc-edit">ed</a> <a href="#in-toc-format">fo</a> <a href="#in-toc-c14n">c14n</a> <a href="#in-toc-validate">val</a> <a href="#in-toc-pyx">pyx</a> <a href="#in-toc-transform">tr</a> <a href="#in-toc-namespaces">xmlns</a> <a href="#in-toc-exslt">exslt</a>]</span></li>
 </ul>
 </div>
 <section id="sec-introduction">
 <h2 id="introduction" class="shew-tgt">Introduction<a href="#introduction" class="permalink shew-hover"></a><div class="toolbar shew-hover h2"><span class="relnop shew-hover"></span><span class="relnop shew-hover"></span><a class="relup shew-hover" href="#xmlstarlet-usage-notes"></a><a class="relnext shew-hover" href="#documentation"></a><a class="rellast shew-hover" href="#toc"></a></div></h2>
-<p><code>xmlstarlet</code> (<a href="http://xmlstar.sourceforge.net/" title="xmlstarlet on SourceForge">xmlstar.sf.net</a>) is the no-nonsense XML multitool that lets you write simple queries or edits on the command line, avoids most of the stylesheet formal stuff, and gives your <code>&lt;o/&gt;&lt;o/&gt;</code>-looking eyes a moment of relief. It’s also a cranky minimalist tool which targets the 1.0 versions of XPath / XSLT / EXSLT still widely used and, it seems, users with little need for documentation.</p>
+<p><code>xmlstarlet</code> (<a href="https://xmlstar.sourceforge.net/" title="xmlstarlet on SourceForge">xmlstar.sf.net</a>) is the no-nonsense XML multitool that lets you write simple queries or edits on the command line, avoids most of the stylesheet formal stuff, and gives your <code>&lt;o/&gt;&lt;o/&gt;</code>-looking eyes a moment of relief. It’s also a cranky minimalist tool which targets the 1.0 versions of XPath / XSLT / EXSLT still widely used and, it seems, users with little need for documentation.</p>
 <p>This is an edited version of my personal notes on <code>xmlstarlet</code> with worked examples – knowledge gained as an outsider through use, trial and error – focusing on the <code>select</code> and <code>edit</code> commands and EXSLT. It’s not a tutorial or a FAQ, it requires a grasp of XML tools and the POSIX shell. Copyright is retained.</p>
 <h4 id="xmlstarlet-features" class="shew-tgt"><code>xmlstarlet</code> features<a href="#xmlstarlet-features" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#introduction"></a><span class="relnop shew-hover"></span></div></h4>
 <ul>
@@ -42,7 +42,7 @@ version 2022-09-30 | <a href="news.html" title="Release news">news</a>
 <h4 id="notation-used-in-this-document" class="shew-tgt">Notation used in this document<a href="#notation-used-in-this-document" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#introduction"></a><span class="relnop shew-hover"></span></div></h4>
 <p><code>-q (--quiet)</code> means either short option <code>-q</code> or long option <code>--quiet</code> can be used.</p>
 <p><code>«name»</code> in a command or message is a placeholder for the actual name used, e.g. <code>xmlXPathCompOpEval: function «name» not found</code>.</p>
-<p>Links look like this: <a href="http://xmlstar.sourceforge.net/doc/UG/">external</a>, <a href="#notation-used-in-this-document">internal</a>, internal <a class="link-cloud-ref" href="#toc-short">link</a> appearing in a navigation link cloud, <a class="link-cloud-ref" href="#toc-edit">ditto</a><sup><strong>*</strong></sup> linking to a larger section with a local link cloud, <span class="in-toc-cloud">[ <a href="#in-toc-select">sel</a> ]</span> linking into the table of contents. On mouseover headers display a permalink icon, on level 2 and 3 also navigation link icons, on level 4 a section link icon.</p>
+<p>Links look like this: <a href="https://xmlstar.sourceforge.net/doc/UG/">external</a>, <a href="#notation-used-in-this-document">internal</a>, internal <a class="link-cloud-ref" href="#toc-short">link</a> appearing in a navigation link cloud, <a class="link-cloud-ref" href="#toc-edit">ditto</a><sup><strong>*</strong></sup> linking to a larger section with a local link cloud, <span class="in-toc-cloud">[ <a href="#in-toc-select">sel</a> ]</span> linking into the table of contents. On mouseover headers display a permalink icon, on level 2 and 3 also navigation link icons, on level 4 a section link icon.</p>
 <p>Code looks like this: <code>test -s file.xml || log …</code>, occasionally with an <code>…</code> (ellipsis) inside for brevity. For readability longer commands are usually <a href="#one-lining">split</a> across lines and indented.</p>
 <p>Admonitions look like this: <span class="caution"><strong>Caution</strong></span>.</p>
 <p>All shell code samples were made for a POSIX shell (<code>dash</code> 0.5.10) with <code>xmlstarlet</code> 1.6.1 (linked with libxml2 20913, libxslt 10134, and libexslt 820) from the <a href="https://packages.debian.org/unstable/text/xmlstarlet">Debian</a> distribution.</p>
@@ -65,7 +65,7 @@ version 2022-09-30 | <a href="news.html" title="Release news">news</a>
 <li><code>man xmlstarlet</code><br/>
 <code>xmlstarlet --help</code><br/>
 <code>xmlstarlet «command-name» --help</code></li>
-<li><code>xmlstarlet</code> on SourceForge: <a href="https://xmlstar.sourceforge.net/">homepage</a> | <a href="https://xmlstar.sourceforge.net/docs.php">docs</a> | <a href="https://xmlstar.sourceforge.net/doc/UG/">user’s guide</a> | <a href="https://sourceforge.net/p/xmlstar/news/">news</a> | <a href="http://xmlstar.sourceforge.net/source.php">source</a> | <a href="https://sourceforge.net/projects/xmlstar/files/xmlstarlet/">files</a> | <a href="https://sourceforge.net/p/xmlstar/discussion/">discussion</a> | <a href="https://sourceforge.net/p/xmlstar/bugs/">bugs</a><br/>
+<li><code>xmlstarlet</code> on SourceForge: <a href="https://xmlstar.sourceforge.net/">homepage</a> | <a href="https://xmlstar.sourceforge.net/docs.php">docs</a> | <a href="https://xmlstar.sourceforge.net/doc/UG/">user’s guide</a> | <a href="https://sourceforge.net/p/xmlstar/news/">news</a> | <a href="https://xmlstar.sourceforge.net/source.php">source</a> | <a href="https://sourceforge.net/projects/xmlstar/files/xmlstarlet/">files</a> | <a href="https://sourceforge.net/p/xmlstar/discussion/">discussion</a> | <a href="https://sourceforge.net/p/xmlstar/bugs/">bugs</a><br/>
 <span class="caution"><strong>Caution</strong></span>: the <a href="https://xmlstar.sourceforge.net/doc/xmlstarlet.txt"><code>doc/xmlstarlet.txt</code></a> there is not the latest version as it doesn’t mention <a href="#edit-prev"><code>$prev</code></a>, <a href="#edit-opt-var"><code>--var</code></a>, <a href="#edit-opt-inplace"><code>-L (--inplace)</code></a>, and <a href="#transform-opt-embed"><code>-E (--embed)</code></a> – the user’s guide is still silent on these</li>
 <li><code>xmlstarlet</code> on <a href="https://fossies.org/about.html" title="Fossies - Fresh Open Source Software mainly for Internet, Engineering and Science">Fossies</a> – an accessible presentation of source, examples, and more:<br/>
 <a href="https://fossies.org/linux/www/xmlstarlet"><code>xmlstarlet-1.6.1.tar.gz</code></a> contents | <a href="https://fossies.org/linux/xmlstarlet/doc/xmlstarlet-ug.html"><code>xmlstarlet</code> user’s guide</a> (1-page) | <a href="https://fossies.org/linux/xmlstarlet/doc/xmlstarlet.txt"><code>doc/xmlstarlet.txt</code></a> (latest version)</li>
@@ -108,7 +108,7 @@ version 2022-09-30 | <a href="news.html" title="Release news">news</a>
 <section id="sec-commands">
 <h2 id="xmlstarlet-commands" class="shew-tgt"><code>xmlstarlet</code> commands<a href="#xmlstarlet-commands" class="permalink shew-hover"></a><div class="toolbar shew-hover h2"><a class="relfirst shew-hover" href="#introduction"></a><a class="relprev shew-hover" href="#documentation"></a><a class="relup shew-hover" href="#xmlstarlet-usage-notes"></a><a class="relnext shew-hover" href="#elements"></a><a class="rellast shew-hover" href="#toc"></a></div></h2>
 <h3 id="general-notes" class="shew-tgt">General notes<a href="#general-notes" class="permalink shew-hover"></a><div class="toolbar shew-hover h3"><span class="relnop shew-hover"></span><span class="relnop shew-hover"></span><a class="relup shew-hover" href="#xmlstarlet-commands"></a><a class="relnext shew-hover" href="#global-options"></a><span class="relnop shew-hover"></span></div></h3>
-<p><span class="caution"><strong>Caution</strong></span>: <q>Other features need some work too</q> warns the <a href="http://xmlstar.sourceforge.net/doc/UG/ch01.html">user’s guide</a>.</p>
+<p><span class="caution"><strong>Caution</strong></span>: <q>Other features need some work too</q> warns the <a href="https://xmlstar.sourceforge.net/doc/UG/ch01.html">user’s guide</a>.</p>
 <p>Perhaps they’re thinking of these:</p>
 <ul>
 <li><code>edit</code>’s <a href="#no-kidding-issue">“no kidding” issue</a></li>
@@ -138,7 +138,7 @@ version 2022-09-30 | <a href="news.html" title="Release news">news</a>
 <li>the input to the <a href="#escape"><code>xmlstarlet unescape</code></a> conversion utility</li>
 </ul>
 </div>
-<p><span class="caution"><strong>Caution</strong></span>: The example in the user’s guide section <a href="http://xmlstar.sourceforge.net/doc/UG/ch04.html#idm47989546279904">4.1</a> meant to convert newlines to blanks using a character reference for the newline – <code>xml sel … -v "translate(. , '&amp;#10;', ' ')" …</code> – in fact converts <code>&amp;</code> (ampersand) characters to blanks, and strips <code>#</code>, <code>1</code>, <code>0</code>, and <code>;</code> characters. The <code>translate(…)</code> expression would work as intended in an XSLT stylesheet but <em>means something rather different</em> on the <code>xmlstarlet select</code> command line.</p>
+<p><span class="caution"><strong>Caution</strong></span>: The example in the user’s guide section <a href="https://xmlstar.sourceforge.net/doc/UG/ch04.html#idm47989546279904">4.1</a> meant to convert newlines to blanks using a character reference for the newline – <code>xml sel … -v "translate(. , '&amp;#10;', ' ')" …</code> – in fact converts <code>&amp;</code> (ampersand) characters to blanks, and strips <code>#</code>, <code>1</code>, <code>0</code>, and <code>;</code> characters. The <code>translate(…)</code> expression would work as intended in an XSLT stylesheet but <em>means something rather different</em> on the <code>xmlstarlet select</code> command line.</p>
 <p><em>See also</em>: <a href="#escape"><code>xmlstarlet esc</code> / <code>xmlstarlet unesc</code></a> | <a href="#replace-text">Replace text</a> sample</p>
 <div class="dinkus2">
 
@@ -390,15 +390,14 @@ process 20965 exiting</code></pre>
 compiled against libxml2 2.9.4, linked with 20910
 compiled against libxslt 1.1.33, linked with 10134</code></pre>
 <h4 id="global-opt-quiet" class="shew-tgt"><code>-q (--quiet)</code>: suppress error output<a href="#global-opt-quiet" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#xmlstarlet-commands"></a><span class="relnop shew-hover"></span></div></h4>
-<p>Error messages from <a href="#selected-resources"><code>libxml2</code></a> or <a href="#selected-resources"><code>libxslt</code></a> are also suppressed by this option.</p>
+<p>Error messages from <a href="#selected-resources"><code>libxml2</code></a> or <a href="#selected-resources"><code>libxslt</code></a> are suppressed by this option.</p>
 <p><span class="caution"><strong>Caution</strong></span>: this option also suppresses ordinary output (to <code>stdout</code>) from <code>xmlstarlet select</code>.</p>
-<p><span class="caution"><strong>Caution</strong></span>: this option is ignored by <code>xmlstarlet edit</code>.</p>
-<p><em>See also</em>: <a href="#select-opt-quiet">select <code>-Q (--quiet)</code></a> local option</p>
+<p><em>See also</em>: <a href="#select-opt-quiet">select <code>-Q (--quiet)</code></a> local option | <a href="#format-opt-quiet">format <code>-Q (--quiet)</code></a> local option</p>
 <h4 id="global-opt-no-doc-namespace" class="shew-tgt"><code>--no-doc-namespace</code>: don’t use namespace bindings from input’s root element<a href="#global-opt-no-doc-namespace" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#xmlstarlet-commands"></a><span class="relnop shew-hover"></span></div></h4>
 <h4 id="global-opt-doc-namespace" class="shew-tgt"><code>--doc-namespace</code>: extract namespace bindings from input’s root element (<em>default</em>)<a href="#global-opt-doc-namespace" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#xmlstarlet-commands"></a><span class="relnop shew-hover"></span></div></h4>
 <p>By default (<code>--doc-namespace</code> being in effect) namespaces declared in input’s <strong>root element</strong> (aka document element) can be referred to without explicit <code>-N</code> options; if the default namespace is declared there it is bound to the <code>_</code> (underscore) (aka <code>DEFAULT</code>) prefix.</p>
 <p>Although <code>--no-doc-namespace</code> and <code>--doc-namespace</code> are global options only <code>xmlstarlet select</code> and <code>xmlstarlet edit</code> use them.</p>
-<p><em>See also</em>: User’s guide <a href="http://xmlstar.sourceforge.net/doc/UG/ch05.html#idm47989546158480">ch. 5</a> | <a href="#namespaces-use">Use a namespace</a> | <a href="#select-opt-n"><code>select -N</code></a> | <a href="#edit-opt-n"><code>edit -N</code></a></p>
+<p><em>See also</em>: User’s guide <a href="https://xmlstar.sourceforge.net/doc/UG/ch05.html#idm47989546158480">ch. 5</a> | <a href="#namespaces-use">Use a namespace</a> | <a href="#select-opt-n"><code>select -N</code></a> | <a href="#edit-opt-n"><code>edit -N</code></a></p>
 <h4 id="global-opt-net" class="shew-tgt">Network access (<code>--net</code>)<a href="#global-opt-net" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#xmlstarlet-commands"></a><span class="relnop shew-hover"></span></div></h4>
 <p>Several <code>xmlstarlet</code> commands - <code>select</code>, <code>edit</code>, <code>format</code>, <code>c14n</code>, <code>validate</code>, and <code>transform</code> - have a <code>--net</code> option to allow network access, to fetch remote DTDs and entities. <code>--net</code> clears the <code>XML_PARSE_NONET</code> flag for the <code>libxml2</code> XML parser (<a href="https://gnome.pages.gitlab.gnome.org/libxml2/devhelp/libxml2-parser.html">API ref</a>).</p>
 <p>For security, network access is disallowed by default, cf. article on <a href="https://en.wikipedia.org/wiki/XML_external_entity_attack" title="'XML external entity attack' on Wikipedia">XML external entity attack</a>.</p>
@@ -752,7 +751,8 @@ fum</code></pre>
 <li><code>-a (--attr)</code><br/>
 e.g. <code>-a 'data-dec' -o 'pre' -v '.' -o 'suf' -b</code></li>
 <li><code>--var</code> without <code>=</code> (nestable)<br/>
-e.g. <code>--var idls -m 'was[not(was)]' -v 'concat(@id,$sep,@class)' -n -b -b</code></li>
+e.g. <code>--var idls -m 'was[not(was)]' -v 'concat(@id,$sep,@class)' -n -b -b</code><br/>
+any nested <code>--var</code>s are local to the enclosing <code>--var</code> but must have unique variable names.</li>
 <li><code>-t (--template)</code></li>
 </ul>
 <p>These can be followed by a variable number of options and so must be terminated explicitly unless followed by one of:</p>
@@ -1828,6 +1828,8 @@ xmlstarlet -q format --html --recover --dropdtd --omit-decl &gt; output</code></
 <p><em>Links</em>: <a href="https://www.html-tidy.org/" title="HTML/XML syntax checker and reformatter">HTML Tidy</a> | <a href="https://www.w3.org/Tools/HTML-XML-utils/README" title="A number of simple utilities for manipulating HTML and XML files">W3C’s html-xml-utils</a> | <a href="#selected-resources"><code>xmllint</code></a></p>
 <h4 id="format-opt-nsclean" class="shew-tgt"><code>-N (--nsclean)</code> - remove redundant namespace declarations<a href="#format-opt-nsclean" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#format"></a><span class="relnop shew-hover"></span></div></h4>
 <p><em>See also</em>: <a href="#namespaces-remove-redundant">Remove namespace declarations</a></p>
+<h4 id="format-opt-quiet" class="shew-tgt"><code>-Q (--quiet)</code> [undocumented] - suppress error output<a href="#format-opt-quiet" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#format"></a><span class="relnop shew-hover"></span></div></h4>
+<p>Does what the <a href="#global-opt-quiet"><code>-q (--quiet)</code></a> global option does.</p>
 <h4 id="format-opt-recover" class="shew-tgt"><code>-R (--recover)</code> - try to recover what is parsable<a href="#format-opt-recover" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#format"></a><span class="relnop shew-hover"></span></div></h4>
 <p><em>See also</em>: <a href="#format-opt-html"><code>-H (--html)</code></a></p>
 <h4 id="format-opt-net" class="shew-tgt"><code>--net</code> - allow network access<a href="#format-opt-net" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#format"></a><span class="relnop shew-hover"></span></div></h4>
@@ -1868,7 +1870,7 @@ xmlstarlet -q format --html --recover --dropdtd --omit-decl &gt; output</code></
 (//. | //@* | //namespace::*)[ancestor-or-self::n1:elem1]
 &lt;/XPath&gt;</code></pre>
 <h4 id="c14n-param-inclusive-ns-list" class="shew-tgt">«inclusive-ns-list» - list of inclusive namespace prefixes<a href="#c14n-param-inclusive-ns-list" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#c14n"></a><span class="relnop shew-hover"></span></div></h4>
-<p>The <em>InclusiveNamespaces PrefixList</em> as a comma-separated (<span class="caution"><strong>Caution</strong></span>: the <a href="http://xmlstar.sourceforge.net/doc/UG/ch04s06.html">user’s guide</a> says blank-separated) list of namespace prefixes; for exclusive canonicalization only.</p>
+<p>The <em>InclusiveNamespaces PrefixList</em> as a comma-separated (<span class="caution"><strong>Caution</strong></span>: the <a href="https://xmlstar.sourceforge.net/doc/UG/ch04s06.html">user’s guide</a> says blank-separated) list of namespace prefixes; for exclusive canonicalization only.</p>
 <div class="dinkus1">
 
 </div>
@@ -2095,7 +2097,7 @@ n   filename</code></pre>
 xsl:vendor-url  http://xmlsoft.org/XSLT/
 xsl:version     1.0</code></pre>
 <p><span class="caution"><strong>Caution</strong></span>: <code>xmlstarlet transform</code> doesn’t flag invalid options (<a href="https://fossies.org/linux/xmlstarlet/src/xml_trans.c#l_66" title="Fossies - the Fresh Open Source Software Archive">src/xml_trans.c#trParseOptions()</a>).</p>
-<p><span class="caution"><strong>Caution</strong></span>: The <code>--catalogs</code> option mentioned in the <a href="http://xmlstar.sourceforge.net/doc/UG/ch04s02.html">user’s guide</a> was never implemented, it seems; not listed by <code>xmlstarlet transform --help</code>.</p>
+<p><span class="caution"><strong>Caution</strong></span>: The <code>--catalogs</code> option mentioned in the <a href="https://xmlstar.sourceforge.net/doc/UG/ch04s02.html">user’s guide</a> was never implemented, it seems; not listed by <code>xmlstarlet transform --help</code>.</p>
 <h4 id="transform-usage" class="shew-tgt">Usage: <code>transform [option …] «xsl-file» [-p|-s «name»=«value» …] [«xml-file-or-uri» …]</code><a href="#transform-usage" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#transform"></a><span class="relnop shew-hover"></span></div></h4>
 <h3 id="transform-local-options" class="shew-tgt">Local options<a href="#transform-local-options" class="permalink shew-hover"></a><div class="toolbar shew-hover h3"><span class="relnop shew-hover"></span><span class="relnop shew-hover"></span><a class="relup shew-hover" href="#transform"></a><a class="relnext shew-hover" href="#transform-parameters"></a><span class="relnop shew-hover"></span></div></h3>
 <h4 id="transform-opt-help" class="shew-tgt"><code>-h (--help)</code> - display help<a href="#transform-opt-help" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#transform"></a><span class="relnop shew-hover"></span></div></h4>
@@ -2159,7 +2161,7 @@ xmlstarlet transform --xinclude /dev/stdin "$pn1"</code></pre>
 <h4 id="namespaces-use" class="shew-tgt">Use a namespace<a href="#namespaces-use" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#namespaces"></a><span class="relnop shew-hover"></span></div></h4>
 <p><code>xmlstarlet</code> predefines the namespaces <code>xml</code>, <code>xsl</code>, and those used with <a href="#exslt">EXSLT</a> functions and elements minus <code>crypto</code> plus <code>saxon</code>. By default (global option <a href="#global-opt-doc-namespace"><code>--doc-namespace</code></a> being in effect) <code>select</code> and <code>edit</code> can use the namespaces declared in the input’s <strong>root element</strong> (document element) without explicit <a href="#select-opt-n"><code>-N «prefix»=«value»</code></a> options; if the default namespace is declared there it is bound to the <code>_</code> (underscore) (aka <code>DEFAULT</code>) prefix.</p>
 <div class="enhanced">
-<p>A QName (<a href="https://www.w3.org/TR/xml-names11/#ns-qualnames" title="Namespaces in XML 1.1 - W3C recommendation">qualified name</a>) with no prefix appearing in an XPath expression uses the null namespace, not the default namespace.</p>
+<p>A QName (<a href="https://www.w3.org/TR/xml-names11/#ns-qualnames" title="Namespaces in XML 1.1 - W3C recommendation">qualified name</a>) with no prefix appearing in an XPath expression uses the <a href="https://www.w3.org/TR/1999/REC-xpath-19991116#node-tests" title="W3C XPath 1.0 recommendation">null namespace</a>, not the default namespace.</p>
 </div>
 <p>Prefixed namespace:</p>
 <pre class="lang-sh"><code>xmlstarlet select --text -t \
@@ -2174,7 +2176,7 @@ article.xhtml</code></pre>
 <pre class="lang-sh"><code>xmlstarlet select -T -t \
   -m 'recs/rec' -v '@date' -n \
 file.xml</code></pre>
-<p><em>See also</em>: User’s guide <a href="http://xmlstar.sourceforge.net/doc/UG/ch05.html#idm47989546158480">ch. 5</a> | <a href="#error-undefined-namespace-prefix">Undefined namespace prefix</a> error | <a href="#error-xmlxpathcompopeval-function-name-bound-to-undefined-prefix-name">name bound to undefined prefix</a> error</p>
+<p><em>See also</em>: User’s guide <a href="https://xmlstar.sourceforge.net/doc/UG/ch05.html#idm47989546158480">ch. 5</a> | <a href="#error-undefined-namespace-prefix">Undefined namespace prefix</a> error | <a href="#error-xmlxpathcompopeval-function-name-bound-to-undefined-prefix-name">name bound to undefined prefix</a> error</p>
 <div class="dinkus3">
 
 </div>
@@ -2356,7 +2358,7 @@ xmlstarlet edit \
 <h2 id="error-messages" class="shew-tgt">Error messages<a href="#error-messages" class="permalink shew-hover"></a><div class="toolbar shew-hover h2"><a class="relfirst shew-hover" href="#introduction"></a><a class="relprev shew-hover" href="#namespaces"></a><a class="relup shew-hover" href="#xmlstarlet-usage-notes"></a><a class="relnext shew-hover" href="#exslt"></a><a class="rellast shew-hover" href="#toc"></a></div></h2>
 <p>A non-exhaustive list of <code>xmlstarlet</code> messages follows.</p>
 <h4 id="error-no-output-and-no-error" class="shew-tgt">(No output and no error)<a href="#error-no-output-and-no-error" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#error-messages"></a><span class="relnop shew-hover"></span></div></h4>
-<p>See <code>xmlstarlet</code> user’s guide <a href="http://xmlstar.sourceforge.net/doc/UG/ch05.html#idm47989546158480">ch. 5</a> “Namespaces and default namespace”.</p>
+<p>See <code>xmlstarlet</code> user’s guide <a href="https://xmlstar.sourceforge.net/doc/UG/ch05.html#idm47989546158480">ch. 5</a> “Namespaces and default namespace”.</p>
 <p><em>See also</em>: <a href="#namespaces-use">Use a namespace</a></p>
 <h4 id="error-edit-usage-reminder" class="shew-tgt">(<code>xmlstarlet edit</code> displays its usage reminder)<a href="#error-edit-usage-reminder" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#error-messages"></a><span class="relnop shew-hover"></span></div></h4>
 <p>… but offers no other clue</p>
@@ -2429,7 +2431,7 @@ xmlstarlet edit \
 <h4 id="extensions-not-found-in-exslt-documentation" class="shew-tgt">Extensions not found in EXSLT documentation<a href="#extensions-not-found-in-exslt-documentation" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#exslt"></a><span class="relnop shew-hover"></span></div></h4>
 <ul>
 <li><code>crypto</code> - 5 functions in namespace <code>http://exslt.org/crypto</code> (<code>md4</code>, <code>md5</code>, <code>rc4_decrypt</code>, <code>rc4_encrypt</code>, <code>sha1</code>), cf.  <a href="https://gitlab.gnome.org/GNOME/libxslt/-/blob/master/libexslt/crypto.c">libexslt/crypto.c</a> source code</li>
-<li><code>saxon</code> - 5 functions in namespace <code>http://icl.com/saxon</code> (<code>eval</code>, <code>evaluate</code>, <code>expression</code>, <code>line-number</code>, <code>systemId</code>), from the <a href="http://saxon.sourceforge.net/saxon6.5.5/extensions.html" title="saxon 6.5.5 extensions on SourceForge">saxon 6.5.5</a> extensions</li>
+<li><code>saxon</code> - 5 functions in namespace <code>http://icl.com/saxon</code> (<code>eval</code>, <code>evaluate</code>, <code>expression</code>, <code>line-number</code>, <code>systemId</code>), from the <a href="https://saxon.sourceforge.net/saxon6.5.5/extensions.html" title="saxon 6.5.5 extensions on SourceForge">saxon 6.5.5</a> extensions</li>
 <li><code>test</code> - function and element in namespace <code>http://xmlsoft.org/XSLT/</code> - echoes its argument</li>
 </ul>
 <h3 id="exslt-examples" class="shew-tgt">Examples<a href="#exslt-examples" class="permalink shew-hover"></a><div class="toolbar shew-hover h3"><span class="relnop shew-hover"></span><span class="relnop shew-hover"></span><a class="relup shew-hover" href="#exslt"></a><span class="relnop shew-hover"></span><span class="relnop shew-hover"></span></div></h3>
@@ -2538,29 +2540,29 @@ expand -t 16</code></pre>
 <p>Using <code>… -v 'date:date-time()' -b</code> (rather than <code>…='date:date-time()'</code>) to avoid <code>xmlstarlet select</code>’s <a href="#select-exslt-namespace-issue">EXSLT namespace issue</a>.</p>
 <p>Output:</p>
 <pre class="lang-none"><code># America/Vancouver
-dttodayL        2022-09-30T01:39:10-07:00
+dttodayL        2022-10-31T01:23:47-07:00
 tzoffset        -07:00
 tzseconds       -25200
-dttodayZ        2022-09-30T08:39:10+00:00
-dttoday2L       2022-09-30T01:39:10-07:00
+dttodayZ        2022-10-31T08:23:47+00:00
+dttoday2L       2022-10-31T01:23:47-07:00
 # Europe/Vatican
-dttodayL        2022-09-30T10:39:10+02:00
-tzoffset        +02:00
-tzseconds       7200
-dttodayZ        2022-09-30T08:39:10+00:00
-dttoday2L       2022-09-30T10:39:10+02:00
+dttodayL        2022-10-31T09:23:47+01:00
+tzoffset        +01:00
+tzseconds       3600
+dttodayZ        2022-10-31T08:23:47+00:00
+dttoday2L       2022-10-31T09:23:47+01:00
 # Asia/Manila
-dttodayL        2022-09-30T16:39:10+08:00
+dttodayL        2022-10-31T16:23:47+08:00
 tzoffset        +08:00
 tzseconds       28800
-dttodayZ        2022-09-30T08:39:10+00:00
-dttoday2L       2022-09-30T16:39:10+08:00
+dttodayZ        2022-10-31T08:23:47+00:00
+dttoday2L       2022-10-31T16:23:47+08:00
 # Pacific/Chatham
-dttodayL        2022-09-30T22:24:10+13:45
+dttodayL        2022-10-31T22:08:47+13:45
 tzoffset        +13:45
 tzseconds       49500
-dttodayZ        2022-09-30T08:39:10+00:00
-dttoday2L       2022-09-30T22:24:10+13:45</code></pre>
+dttodayZ        2022-10-31T08:23:47+00:00
+dttoday2L       2022-10-31T22:08:47+13:45</code></pre>
 <h4 id="use-setleading-and-settrailing" class="shew-tgt">Use <code>set:leading</code> and <code>set:trailing</code><a href="#use-setleading-and-settrailing" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#exslt"></a><span class="relnop shew-hover"></span></div></h4>
 <p><em>Links</em>: EXSLT <a href="https://exslt.github.io/set/index.html"><code>set</code> functions</a> on github.io</p>
 <p>Using an explicit namespace declaration <code>-N str='…'</code> to avoid <code>xmlstarlet select</code>’s <a href="#select-exslt-namespace-issue">EXSLT namespace issue</a>.</p>
@@ -3599,6 +3601,7 @@ Thanks,
 <li class="level4"><a href="#format-opt-dropdtd"><code>-D (--dropdtd)</code> - remove the DOCTYPE of the input doc</a></li>
 <li class="level4"><a href="#format-opt-html"><code>-H (--html)</code> - input is HTML</a></li>
 <li class="level4"><a href="#format-opt-nsclean"><code>-N (--nsclean)</code> - remove redundant namespace declarations</a></li>
+<li class="level4"><a href="#format-opt-quiet"><code>-Q (--quiet)</code> [undocumented] - suppress error output</a></li>
 <li class="level4"><a href="#format-opt-recover"><code>-R (--recover)</code> - try to recover what is parsable</a></li>
 <li class="level4"><a href="#format-opt-net"><code>--net</code> - allow network access</a></li>
 </ul></li>
