@@ -10,6 +10,26 @@
     <section id="sec-news">
       <h1 class="shew-tgt"><code>xmlstarlet-notes</code> news<a href="news.html#" class="permalink shew-hover"></a></h1>
       <p>Link: <a href="index.html">https://martin7th.github.io/xmlstarlet-notes/</a></p>
+      <h2 id="version-2023-01-29" class="shew-tgt">Version 2023-01-29<a href="news.html#version-2023-01-29" class="permalink shew-hover"></a></h2>
+      <h4 id="version-2023-01-29-special-characters">Special characters</h4>
+      <p><a href="index.html#special-characters" title="section General notes: Special characters"><sup>(link)</sup></a><code>edit</code> newline variable example changed:</p>
+      <p>
+        <code>--var nl 'substring-before('"$(printf '"\nA"')"',"A")'</code>
+      </p>
+      <h4 id="version-2023-01-29-xml-parsing-and-serialization">XML parsing and serialization</h4>
+      <p><a href="index.html#xml-parsing-and-serialization" title="section General notes: XML parsing and serialization"><sup>(link)</sup></a> Added:</p>
+      <p>The <code>xmlEscapeEntities</code> function in <a href="index.html#selected-resources"><code>libxml2</code></a>’s <a href="https://gitlab.gnome.org/GNOME/libxml2/-/blob/master/xmlsave.c#L165"><code>xmlsave.c</code></a> serialization module gives special treatment to characters <code>&amp;&lt;&gt;</code> (output as <code>&amp;amp;</code>, <code>&amp;lt;</code>, and <code>&amp;gt;</code>) but neither apostrophe nor double quote (<code>'"</code>). <code>xmlstarlet</code> has no option to override this.</p>
+      <h4 id="version-2023-01-29-edit-prev">Back reference <code>$prev</code> variable</h4>
+      <p><a href="index.html#edit-prev" title="section Edit: `xmlstarlet edit`"><sup>(link)</sup></a> Changed:</p>
+      <p>The <code>$prev</code> variable refers to a nodeset (changed from ‘node’).</p>
+      <h4 id="version-2023-01-29-pyx">PYX: xmlstarlet pyx, depyx</h4>
+      <p><a href="index.html#pyx" title="section PYX: `xmlstarlet pyx, depyx`"><sup>(link)</sup></a> Added:</p>
+      <p>a <code>pyx | depyx</code> pipeline <em>does not guarantee</em> an accurate roundtrip</p>
+      <h4 id="version-2023-01-29-error-namespace-prefix-not-defined">Namespace prefix «name» … is not defined</h4>
+      <p><a href="index.html#error-namespace-prefix-not-defined" title="section Error messages"><sup>(link)</sup></a> New entry, dealing with <code>:</code> (colon) in a name when not indicating a namespace prefix.</p>
+      <h4 id="version-2023-01-29-context-node-and-current-node">Context node and current node</h4>
+      <p><sup>(links)</sup>: <a href="index.html#select-opt-template" title="section Query: `xmlstarlet select`"><code>select -t (--template)</code></a> | <a href="index.html#select-opt-match" title="section Query: `xmlstarlet select`"><code>select -m (--match)</code></a> | <a href="index.html#ex4-external-lookup-table" title="section Query: `xmlstarlet select`">ex4: external lookup table</a> | <a href="index.html#extract-subtree-to-depth-n-removing-namespaces" title="section Query: `xmlstarlet select`">extract subtree example</a> | <a href="index.html#edit" title="section Edit: `xmlstarlet edit`"><code>xmlstarlet edit</code></a> | <a href="index.html#compute-xml-tree-height" title="section EXSLT and other extensions">tree height example</a> <br/> Changed:</p>
+      <p>The <a href="https://www.w3.org/TR/1999/REC-xslt-19991116#dt-current-node" title="W3C XSLT 1.0 recommendation">current node</a> – part of the XSLT processing model – was referred to as <a href="https://www.w3.org/TR/1999/REC-xpath-19991116#dt-context-node" title="W3C XPath 1.0 recommendation">context node</a> – part of the XPath evaluation context. Changed to ‘current node’ as this is more in line with XSLT 1.0 terminology.</p>
       <h2 id="version-2022-10-31" class="shew-tgt">Version 2022-10-31<a href="news.html#version-2022-10-31" class="permalink shew-hover"></a></h2>
       <p>SourceForge now accepts the HTTPS protocol so all remaining HTTP links (<code>xmlstar.sourceforge.net</code> and <code>saxon.sourceforge.net</code>) have been changed to HTTPS.</p>
       <h4 id="version-2022-10-31-global-opt-quiet"><code>-q (--quiet)</code>: suppress error output</h4>
