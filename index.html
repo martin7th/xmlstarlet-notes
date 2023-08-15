@@ -9,8 +9,8 @@
 
 <section id="sec-xmlstarlet-usage-notes">
 <h1 id="xmlstarlet-usage-notes" class="shew-tgt"><code>xmlstarlet</code> usage notes<a href="#xmlstarlet-usage-notes" class="permalink shew-hover"></a><div class="toolbar shew-hover h1"/></h1>
-<div id="doc-version" title="29 January 2023">
-version 2023-01-29 | <a href="news.html" title="Release news">news</a>
+<div id="doc-version" title="15 August 2023">
+version 2023-08-15 | <a href="news.html" title="Release news">news</a>
 </div>
 <div id="toc-short" class="nav">
 <p><em>Short table of contents</em></p>
@@ -124,7 +124,7 @@ version 2023-01-29 | <a href="news.html" title="Release news">news</a>
 <div id="toc-general-notes" class="nav">
 <ul>
 <li><a href="#special-characters">Special characters</a> | <a href="#xml-declaration">XML declaration</a> | <a href="#xml-parsing-and-serialization">XML parsing and serialization</a> | <a href="#xml-external-entities">XML external entities</a><br/>
-| <a href="#exit-values">Exit values</a> | <a href="#one-lining">One-lining</a> | <a href="#makefile-notes-gnu-make">makefile notes</a></li>
+| <a href="#exit-values">Exit values</a> | <a href="#numeric-representation">Numeric representation</a> | <a href="#one-lining">One-lining</a> | <a href="#makefile-notes-gnu-make">makefile notes</a></li>
 </ul>
 </div>
 <h4 id="special-characters" class="shew-tgt">Special characters<a href="#special-characters" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#xmlstarlet-commands"></a><span class="relnop shew-hover"></span></div></h4>
@@ -229,6 +229,10 @@ xmlstarlet edit -O \
 <li><a href="#format-opt-omit-decl"><code>-o (--omit-decl)</code></a>: sets <code>XML_SAVE_NO_DECL</code></li>
 <li><a href="#format-opt-noindent"><code>-n (--noindent)</code></a>, <a href="#format-opt-indent-spaces"><code>-s (--indent-spaces)</code></a>, and <a href="#format-opt-indent-tab"><code>-t (--indent-tab)</code></a> offer an alternative to the default indentation</li>
 </ul></li>
+<li><a href="#c14n"><code>c14n</code></a>
+<ul>
+<li><a href="#c14n-opt-net"><code>--net</code></a>: clears <code>XML_PARSE_NONET</code></li>
+</ul></li>
 <li><a href="#validate"><code>validate</code></a>
 <ul>
 <li><a href="#validate-opt-net"><code>--net</code></a>: clears <code>XML_PARSE_NONET</code></li>
@@ -250,6 +254,17 @@ xmlstarlet edit -O \
 
 </div>
 <p>The <code>xmlEscapeEntities</code> function in <a href="#selected-resources"><code>libxml2</code></a>’s <a href="https://gitlab.gnome.org/GNOME/libxml2/-/blob/master/xmlsave.c#L165"><code>xmlsave.c</code></a> serialization module gives special treatment to characters <code>&amp;&lt;&gt;</code> (output as <code>&amp;amp;</code>, <code>&amp;lt;</code>, and <code>&amp;gt;</code>) but neither apostrophe nor double quote (<code>'"</code>). <code>xmlstarlet</code> has no option to override this.</p>
+<div class="dinkus2">
+
+</div>
+<p>Using a CDATA section to keep the serializer from applying default rules:</p>
+<pre class="lang-shell"><code>$ printf '%s\n' '&lt;v&gt;&lt;w&gt;x&lt;/w&gt;&lt;x&gt;🧩&lt;/x&gt;&lt;/v&gt;' |
+  xmlstarlet edit -O -P -d '*/w'
+&lt;v&gt;&lt;x&gt;&amp;#x1F9E9;&lt;/x&gt;&lt;/v&gt;
+$ :
+$ printf '%s\n' '&lt;v&gt;&lt;w&gt;x&lt;/w&gt;&lt;x&gt;&lt;![CDATA[🧩]]&gt;&lt;/x&gt;&lt;/v&gt;' |
+  xmlstarlet edit -O -P -d '*/w'
+&lt;v&gt;&lt;x&gt;&lt;![CDATA[🧩]]&gt;&lt;/x&gt;&lt;/v&gt;</code></pre>
 <h4 id="xml-external-entities" class="shew-tgt">XML external entities<a href="#xml-external-entities" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#xmlstarlet-commands"></a><span class="relnop shew-hover"></span></div></h4>
 <p><span class="caution"><strong>Caution</strong></span>: Of <code>xmlstarlet</code>’s commands only <a href="#c14n"><code>c14n</code></a>, <a href="#select"><code>select</code></a>, and <a href="#transform"><code>transform</code></a> seem to understand an entity reference like <code>&lt;doc&gt;&amp;e;&lt;/doc&gt;</code>, according to the following test script. This makes pre/post-processing a requirement if using <code>xmlstarlet</code>’s other commands to handle external entities.</p>
 <pre class="lang-sh"><code>#!/bin/sh
@@ -315,6 +330,39 @@ done</code></pre>
 <li>handling <a href="#xml-external-entities">external entities</a></li>
 <li>exit value zero doesn’t mean there were no errors (e.g.  <a href="#use-the-document-function"><code>document()</code></a> failure, <a href="#escape">unescape</a> – both producing <code>stderr</code> output)</li>
 </ul>
+<h4 id="numeric-representation" class="shew-tgt">Numeric representation<a href="#numeric-representation" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#xmlstarlet-commands"></a><span class="relnop shew-hover"></span></div></h4>
+<p>XPath 1.0 does not support numbers expressed in <a href="https://en.wikipedia.org/wiki/Scientific_notation" title="Article on Wikipedia">scientific notation</a>, cf. <a href="https://www.w3.org/TR/1999/REC-xpath-19991116#NT-Number" title="NT-Number - W3C XPath 1.0 recommendation">W3C recommendation</a> (<code>Number ::= Digits ('.' Digits?)? | '.' Digits</code> and <code>Digits ::= [0-9]+</code>).</p>
+<p>Tools based on <a href="#selected-resources"><code>libxml2</code></a> do support it, however, cf.  <a href="https://gitlab.gnome.org/GNOME/libxml2/-/blob/master/xpath.c#L3158" title="xpath.c on gitlab.gnome.org"><code>xmlXPathFormatNumber()</code></a> (<code>snprintf(work, sizeof(work),"%*.*e", integer_place, fraction_place, number);</code>).</p>
+<p>Here are a few examples of <code>libxml2</code> handling XPath computations – and <code>libxslt</code> handling the XSLT <a href="https://www.w3.org/TR/1999/REC-xslt-19991116#function-format-number" title="W3C XSLT 1.0 recommendation"><code>format-number()</code></a> function.</p>
+<pre class="lang-xml"><code>printf '%s\n' '&lt;v&gt;1240057409536&lt;/v&gt;' |
+xmlstarlet select -T -t \
+  -v '*' -n \
+  -v '0 + *' -n \
+  -v '* div 1' -n \
+  -v '* div 1000 * 1E3' -n \
+  -v '* div 1.240057409536e+12' -n \
+  -o '---' -n \
+  -v 'round(* div 1)' -n \
+  -v 'round(* div 10)' -n \
+  -v 'round(* div 100)' -n \
+  -v 'round(* div 1000)' -n \
+  -o '---' -n \
+  -v 'format-number(* div 1,"#")' -n \
+  -v 'format-number(* div 1,"#,###")' -n</code></pre>
+<p>Output:</p>
+<pre class="lang-xml"><code>1240057409536
+1.240057409536e+12
+1.240057409536e+12
+1.240057409536e+12
+1
+---
+1.240057409536e+12
+1.24005740954e+11
+1.2400574095e+10
+1240057410
+---
+1240057409536
+1,240,057,409,536</code></pre>
 <h4 id="one-lining" class="shew-tgt">One-lining<a href="#one-lining" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#xmlstarlet-commands"></a><span class="relnop shew-hover"></span></div></h4>
 <p>In this document longer commands are usually split across lines and indented, like this:</p>
 <pre class="lang-sh"><code>xmlstarlet select -T -t \
@@ -1098,7 +1146,7 @@ xmlstarlet select -B -I -N ns3='https://www.example.com/ns/ns3' -t \
 <li>by default formats its output</li>
 <li>optionally performs <a href="#edit-opt-inplace">in-place</a> editing</li>
 </ul>
-<p>To do conditional updates, or to dynamically create <code>-n</code> names or <code>-v</code> values for an <code>edit</code> command, it may be worthwhile having <code>xmlstarlet select</code> <a href="#code-generation">generate</a> it.</p>
+<p>To do <a href="#add-if-condition">conditional</a> <a href="#update-or-add-if-not-exists">updates</a>, or to dynamically create <code>-n</code> names or <code>-v</code> values for an <code>edit</code> command, it may be worthwhile having <code>xmlstarlet select</code> <a href="#code-generation">generate</a> it.</p>
 <h4 id="edit-usage" class="shew-tgt">Usage: <code>edit</code> option […] [action …] [«xml-file-or-uri» …]<a href="#edit-usage" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#edit"></a><span class="relnop shew-hover"></span></div></h4>
 <div id="toc-edit" class="nav">
 <ul>
@@ -1107,7 +1155,7 @@ xmlstarlet select -B -I -N ns3='https://www.example.com/ns/ns3' -t \
 <li><a href="#edit-action-options">Action options</a><br/>
 <a href="#edit-opt-insert"><code>-i (--insert)</code></a> | <a href="#edit-opt-append"><code>-a (--append)</code></a> | <a href="#edit-opt-subnode"><code>-s (--subnode)</code></a> | <a href="#edit-prev">Back reference <code>$prev</code> variable</a> | <a href="#edit-opt-var"><code>--var name 'xpath'</code></a> | <a href="#edit-opt-update-value"><code>-u (--update)</code></a> | <a href="#edit-opt-delete"><code>-d (--delete)</code></a> | <a href="#edit-opt-rename"><code>-r (--rename)</code></a> | <a href="#edit-opt-move"><code>-m (--move)</code></a> | <a href="#edit-xpath-arguments">xpath arguments</a> | <a href="#edit-exslt-in-xpath-arguments">EXSLT in xpath arguments</a> | <a href="#no-kidding-issue">“No kidding” issue</a></li>
 <li><a href="#edit-examples">Examples</a><br/>
-<a href="#insert-html-link">Insert HTML <code>&lt;link …/&gt;</code></a> | <a href="#toggle-01-or-falsetrue">Toggle 0/1 or false/true</a> | <a href="#replace-text">Replace text</a> | <a href="#update-or-add-if-not-exists">Update or add if not exists</a> | <a href="#duplicate-an-element-keep-the-formatting">Duplicate an element, keep the formatting</a> | <a href="#edit-moving-nodes">Moving nodes using <code>edit</code> <code>-m</code> or <code>-a</code>, <code>-u</code>, <code>-r</code>, <code>-d</code></a> | <a href="#divide-a-document-into-sections">Divide a document into sections</a> | <a href="#try-out-xmlstarlet-edits-formatting-options">Try out <code>edit</code>’s formatting options</a></li>
+<a href="#insert-html-link">Insert HTML <code>&lt;link …/&gt;</code></a> | <a href="#toggle-01-or-falsetrue">Toggle 0/1 or false/true</a> | <a href="#replace-text">Replace text</a> | <a href="#update-or-add-if-not-exists">Update or add if not exists</a> | <a href="#add-if-condition">Add if «condition»</a> | <a href="#duplicate-an-element-keep-the-formatting">Duplicate an element, keep the formatting</a> | <a href="#edit-moving-nodes">Moving nodes using <code>edit</code> <code>-m</code> or <code>-a</code>, <code>-u</code>, <code>-r</code>, <code>-d</code></a> | <a href="#divide-a-document-into-sections">Divide a document into sections</a> | <a href="#try-out-xmlstarlet-edits-formatting-options">Try out <code>edit</code>’s formatting options</a></li>
 </ul>
 </div>
 <h3 id="edit-non-action-options" class="shew-tgt">Non-action options<a href="#edit-non-action-options" class="permalink shew-hover"></a><div class="toolbar shew-hover h3"><span class="relnop shew-hover"></span><span class="relnop shew-hover"></span><a class="relup shew-hover" href="#edit"></a><a class="relnext shew-hover" href="#edit-action-options"></a><a class="rellast shew-hover" href="#edit-examples"></a></div></h3>
@@ -1117,7 +1165,7 @@ xmlstarlet select -B -I -N ns3='https://www.example.com/ns/ns3' -t \
 <h4 id="edit-opt-ps" class="shew-tgt"><code>-S (--ps)</code> - preserve non-significant spaces<a href="#edit-opt-ps" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#edit"></a><span class="relnop shew-hover"></span></div></h4>
 <p><code>-O (--omit-decl)</code>, <code>-P (--pf)</code>, and <code>-S (--ps)</code> set/unset <code>libxml2</code> flags, cf. <a href="#xml-parsing-and-serialization">XML parsing and serialization</a>.</p>
 <p><em>See also</em>: <a href="#try-out-xmlstarlet-edits-formatting-options">Try out <code>edit</code>’s formatting options</a> | <a href="#select-opt-indent"><code>select -I (--indent)</code></a></p>
-<h4 id="edit-opt-inplace" class="shew-tgt"><code>-L (--inplace)</code> - edit input file in-place<a href="#edit-opt-inplace" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#edit"></a><span class="relnop shew-hover"></span></div></h4>
+<h4 id="edit-opt-inplace" class="shew-tgt"><code>-L (--inplace)</code> - edit input file(s) in-place<a href="#edit-opt-inplace" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#edit"></a><span class="relnop shew-hover"></span></div></h4>
 <p>This option</p>
 <ul>
 <li>produces no terminal output unless there are error messages</li>
@@ -1125,6 +1173,8 @@ xmlstarlet select -B -I -N ns3='https://www.example.com/ns/ns3' -t \
 <li>makes no backup of input</li>
 <li>is mentioned in <a href="https://fossies.org/linux/xmlstarlet/doc/xmlstarlet.txt">doc/xmlstarlet.txt</a> but not in the user’s guide</li>
 <li>has a known bug for filenames containing urlencoded characters, e.g. <code>%20</code>, cf. <a href="#global-options">Global options and parameters</a></li>
+<li>formats the input file(s) unless option <a href="#edit-opt-pf"><code>-P (--pf)</code></a> is given</li>
+<li>updates the timestamps of the input file(s) even if output is identical to input</li>
 </ul>
 <h4 id="edit-opt-net" class="shew-tgt"><code>--net</code> - allow network access<a href="#edit-opt-net" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#edit"></a><span class="relnop shew-hover"></span></div></h4>
 <p><em>See also</em>: <a href="#global-opt-net">network access</a></p>
@@ -1281,7 +1331,7 @@ xmlstarlet edit -O \
   -u '*/@pi' -x 'math:constant("PI",10)' \
   -u '*/@r' -x '$e*/*/@z*/*/@pi' \
   -r '*/@*[starts-with(.,str:align(25,"  "))]' -v 'ezpi'</code></pre>
-<p>The number <code>1e3</code> (in <a href="https://en.wikipedia.org/wiki/Scientific_notation" title="Article on Wikipedia">scientific notation</a>) isn’t XPath 1.0 but understood by <a href="#selected-resources">libxslt</a>.</p>
+<p>The number <code>1e3</code> (in <a href="https://en.wikipedia.org/wiki/Scientific_notation" title="Article on Wikipedia">scientific notation</a>) isn’t XPath 1.0 but <a href="#numeric-representation">understood</a> by <a href="#selected-resources"><code>libxml2</code></a>.</p>
 <p>Output:</p>
 <pre class="lang-none"><code>&lt;v y="Saturday" e="2.71828182" pi="3.14159265" z="3" ezpi="25.6192025590219"/&gt;</code></pre>
 <p><em>See also</em>: <a href="#divide-a-document-into-sections">Divide a document into sections</a> example</p>
@@ -1377,6 +1427,31 @@ xmlstarlet edit -O -u 'doc/e' -v "${avar}" "${infile:-file.xml}"</code></pre>
   -u '$prev' -x 'string(../@name)' \
 "${infile:-file.xml}"</code></pre>
 <p>Note that <code>-x 'string(../@name)'</code> – and <code>../@name</code> as a <code>concat()</code> string argument – copies the attribute value, <code>-x '../@name'</code> the attribute node; the latter fails as attributes cannot contain other nodes (causing an empty value to be assigned to <code>@desc</code>).</p>
+<h4 id="add-if-condition" class="shew-tgt">Add if «condition»<a href="#add-if-condition" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#edit"></a><span class="relnop shew-hover"></span></div></h4>
+<p><code>xmlstarlet edit</code> has no <code>if-then-else</code> construct so the following snippets use standard XPath 1.0 <a href="https://www.w3.org/TR/1999/REC-xpath-19991116#predicates" title="W3C XPath 1.0 recommendation">expressions</a> and <code>edit</code>’s back reference <a href="#edit-prev"><code>$prev</code></a> variable to apply conditions. All use the following nodeset variable:</p>
+<pre class="lang-sh"><code>--var T '/Server/Service[@name="Catalina"]'</code></pre>
+<p>Add <code>$T/Connector</code> after last ditto:</p>
+<pre class="lang-sh"><code>-a '$T/Connector[last()]' -t elem -n Connector \
+--var C '$prev' -s '$C' -t attr -n port -v '7654'</code></pre>
+<p>Nothing is added if no <code>$T/Connector</code> node exists – in which case <code>$prev</code> becomes <code>null</code> and <code>-s '$C' …</code> has no effect – otherwise a <code>Connector</code> element is appended as first following sibling (to become the new last <code>Connector</code>) and given a <code>port</code> attribute.</p>
+<div class="dinkus3">
+
+</div>
+<p>Add <code>$T/Connector</code> if not exists, as last child of <code>$T</code>:</p>
+<pre class="lang-sh"><code>-s '$T[not(Connector)]' -t elem -n Connector \
+--var C '$prev' -s '$C' -t attr -n port -v '8765'</code></pre>
+<p>Nothing is added if a <code>$T/Connector</code> node exists – if the first <code>-s …</code> matches nothing then the second <code>-s …</code> (due to a <code>null</code> <code>$prev</code>) will match nothing.</p>
+<div class="dinkus3">
+
+</div>
+<p>Add <code>$T/Connector</code> if not exists, after <code>$T/Executor[1]</code> if exists:</p>
+<pre class="lang-sh"><code>-a '$T[not(Connector)]/Executor[1]' -t elem -n Connector \
+--var C '$prev' -s '$C' -t attr -n port -v '9876'</code></pre>
+<p>Nothing is added if a <code>$T/Connector</code> node exists or no <code>$T/Executor</code> node exists, otherwise appended as first following sibling of first <code>$T/Executor</code>.</p>
+<div class="dinkus3">
+
+</div>
+<p><em>See also</em>: <a href="#edit-opt-var"><code>--var</code></a> | <a href="#edit-opt-append"><code>-a (--append)</code></a> | <a href="#edit-opt-subnode"><code>-s (--subnode)</code></a> | <a href="#edit-prev"><code>$prev</code></a> | <a href="#edit-opt-update-expr"><code>-u (--update)</code></a></p>
 <h4 id="duplicate-an-element-keep-the-formatting" class="shew-tgt">Duplicate an element, keep the formatting<a href="#duplicate-an-element-keep-the-formatting" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#edit"></a><span class="relnop shew-hover"></span></div></h4>
 <p>This code duplicates a <code>bean</code> element from a formatted input file, inserts the copy right after the original, changing its <code>@id</code>, and restores the inter-element whitespace that was. Use with <code>edit</code>’s <a href="#edit-opt-pf"><code>-P (--pf)</code></a> or <a href="#edit-opt-ps"><code>-S (--ps)</code></a> option.</p>
 <pre class="lang-sh"><code>xmlstarlet edit --ps \
@@ -2119,27 +2194,61 @@ xsl:version     1.0</code></pre>
 <p><em>See also</em>: <a href="#global-opt-net">network access</a></p>
 <h4 id="transform-opt-xinclude" class="shew-tgt"><code>--xinclude</code> - do XInclude processing on document input<a href="#transform-opt-xinclude" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#transform"></a><span class="relnop shew-hover"></span></div></h4>
 <p><em>Links</em>: XML Inclusions <a href="https://www.w3.org/TR/xinclude/">XInclude</a> - W3C recommendation</p>
-<p>Include file2 in file1:</p>
-<pre class="lang-sh"><code>pn1="$(mktemp)"  pn2="$(mktemp)"
-trap "rm -f '$pn1' '$pn2'" INT EXIT
+<p><em>See also</em>: the XSLT <a href="#use-the-document-function"><code>document()</code></a> function</p>
+<div class="dinkus3">
 
-printf '&lt;doc xmlns:xi="http://www.w3.org/2001/XInclude"
-&gt;a&lt;xi:include href="%s" parse="%s"/&gt;b&lt;/doc&gt;\n' "$pn2" 'xml' &gt;"$pn1"
-printf '&lt;snippet&gt;c&lt;/snippet&gt;' &gt;"$pn2"
+</div>
+<p>Basic XInclude example: include <code>file2.xml</code> in <code>file1.xml</code>.</p>
+<pre class="lang-sh"><code>cat &lt;&lt; 'HERE' &gt; 'file1.xml'
+&lt;root&gt;
+  &lt;gs&gt;
+    &lt;xi:include
+      xmlns:xi="http://www.w3.org/2001/XInclude" 
+      href="file2.xml"
+      xpointer="xpointer(//g[@id='items']/*)"
+      parse="xml"
+    /&gt;
+  &lt;/gs&gt;
+&lt;/root&gt;
+HERE
+
+cat &lt;&lt; 'HERE' &gt; 'file2.xml'
+&lt;doc&gt;&lt;g id="items"&gt;&lt;g1/&gt;&lt;g2/&gt;&lt;g3/&gt;&lt;g4/&gt;&lt;/g&gt;&lt;/doc&gt;
+HERE
 
 xmlstarlet select -C -t -c / |
-xmlstarlet transform --xinclude /dev/stdin "$pn1"</code></pre>
+xmlstarlet transform --xinclude /dev/stdin 'file1.xml'</code></pre>
 <ul>
-<li><code>select</code> outputs a stylesheet to duplicate its input</li>
-<li><code>transform</code> performs <code>XInclude</code> processing on its input:</li>
-<li>the <code>xmlns:xi</code> namespace node in output is now <a href="#namespaces-remove-redundant">unneeded</a></li>
-<li><code>xml:base</code> attributes may crop up in output (cf. <a href="https://www.w3.org/TR/xmlbase/" title="W3C recommendation">XML Base</a> - W3C rec)</li>
+<li><code>xmlstarlet transform --xinclude</code> does the XInclude processing using an XSLT stylesheet (generated on the fly by <code>xmlstarlet select</code>) which duplicates its input by copying the root node (<code>/</code>)</li>
+<li><code>xi:include</code> elements may appear in both the including and the included file(s)
+<ul>
+<li><code>parse="xml"</code> is the default and may be omitted, the only other option is <code>parse="text"</code> (sample output below)</li>
+<li>if present the <code>href</code> attribute must refer to an XML document</li>
+<li>if the <code>href</code> attribute is absent (or empty) when <code>parse="xml"</code> it refers to the including document in which case the <code>xpointer</code> attribute must be present</li>
+<li>if no <code>xpointer</code> attribute is given, or its value set to <code>xpointer(/)</code>, the entire inclusion target will be included</li>
+<li>the XPointer expression specifies the XPath of the nodes to include, it’s possible to use complex expressions here such as <a href="https://www.w3.org/TR/1999/REC-xpath-19991116#NT-UnionExpr" title="W3C XPath 1.0 recommendation">unions</a></li>
+</ul></li>
+<li><code>xml:base</code> attributes will appear in output (cf. <a href="https://www.w3.org/TR/xmlbase/" title="W3C recommendation">XML Base</a> - W3C rec) unless the inclusion source and target(s) use a shared include location (hint: use absolute pathnames)</li>
+<li>the <code>xmlns:xi</code> namespace node will appear in output if given outside the <code>xi:include</code> element (and may prove rather <a href="#namespaces-remove-redundant">sticky</a>)</li>
 </ul>
 <p>Output:</p>
-<pre class="lang-xml"><code>&lt;doc xmlns:xi="http://www.w3.org/2001/XInclude"&gt;a&lt;snippet&gt;c&lt;/snippet&gt;b&lt;/doc&gt;</code></pre>
-<p>If instead the <code>parse</code> attribute is set to <code>text</code>:</p>
-<pre class="lang-xml"><code>&lt;doc xmlns:xi="http://www.w3.org/2001/XInclude"&gt;a&amp;lt;snippet&amp;gt;c&amp;lt;/snippet&amp;gt;b&lt;/doc&gt;</code></pre>
-<p><code>xi:include</code> can target XML <a href="https://www.w3.org/TR/xml-fragment" title="XML Fragment Interchange - W3C Candidate Recommendation">fragments</a>, unlike the XSLT <a href="#use-the-document-function"><code>document()</code></a> function.</p>
+<pre class="lang-xml"><code>&lt;root&gt;
+  &lt;gs&gt;
+    &lt;g1/&gt;&lt;g2/&gt;&lt;g3/&gt;&lt;g4/&gt;
+  &lt;/gs&gt;
+&lt;/root&gt;</code></pre>
+<p>If instead <code>parse="text"</code>:</p>
+<pre class="lang-xml"><code>&lt;root&gt;
+  &lt;gs&gt;
+    &amp;lt;doc&amp;gt;&amp;lt;g id="items"&amp;gt;&amp;lt;g1/&amp;gt;&amp;lt;g2/&amp;gt;&amp;lt;g3/&amp;gt;&amp;lt;g4/&amp;gt;&amp;lt;/g&amp;gt;&amp;lt;/doc&amp;gt;
+
+  &lt;/gs&gt;
+&lt;/root&gt;</code></pre>
+<div class="dinkus3">
+
+</div>
+<p>An alternative to XInclude or <code>document()</code>:</p>
+<p>The <a href="https://www.w3.org/Tools/HTML-XML-utils/man1/hxincl.html" title="hxincl - expand included HTML or XML files"><code>hxincl</code></a> utility from the W3C <a href="#selected-resources"><code>html-xml-utils</code></a> package is HTML/XML-aware and expands certain embedded comments – or prints a <code>makefile</code> rule listing the dependent include files – e.g. <code>hxincl -x -s incfnm=file2.xml file1.xml</code>.</p>
 <h4 id="transform-opt-maxdepth" class="shew-tgt"><code>--maxdepth value</code> - increase the maximum depth<a href="#transform-opt-maxdepth" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#transform"></a><span class="relnop shew-hover"></span></div></h4>
 <p>Used to detect template loops, cf. variable <code>xsltMaxDepth</code> in <code>xslt.h</code>.</p>
 <h4 id="transform-opt-html" class="shew-tgt"><code>--html</code> - input document(s) are in HTML format<a href="#transform-opt-html" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#transform"></a><span class="relnop shew-hover"></span></div></h4>
@@ -2415,6 +2524,9 @@ file.xml</code></pre>
 <p><em>See also</em>: <a href="#namespaces-use">Use a namespace</a> | <a href="#error-namespace-prefix-not-defined">Namespace prefix «name» … is not defined</a></p>
 <h4 id="warning-unrecognized-option-option" class="shew-tgt">Warning: unrecognized option «option»<a href="#warning-unrecognized-option-option" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#error-messages"></a><span class="relnop shew-hover"></span></div></h4>
 <p><code>edit</code>’s <a href="#edit-opt-n"><code>-N</code> option</a> must be the last non-action option.</p>
+<h4 id="xmlsax2characters-huge-text-node-out-of-memory" class="shew-tgt">xmlSAX2Characters: huge text node: out of memory<a href="#xmlsax2characters-huge-text-node-out-of-memory" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#error-messages"></a><span class="relnop shew-hover"></span></div></h4>
+<p>In <code>libxml2</code> the <code>XML_PARSE_HUGE</code> option is disabled by default to prevent denial-of-service attacks. This triggers the <code>xmlSAX2Characters: huge text node: out of memory</code> error when loading a text node larger than 10 MB.</p>
+<p>For a workaround see this <a href="https://github.com/martin7th/xmlstarlet-patch-huge/">patch</a>.</p>
 <h4 id="error-xmlxpathcompopeval-function-name-bound-to-undefined-prefix-name" class="shew-tgt">xmlXPathCompOpEval: function «name» bound to undefined prefix «name»<a href="#error-xmlxpathcompopeval-function-name-bound-to-undefined-prefix-name" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#error-messages"></a><span class="relnop shew-hover"></span></div></h4>
 <p>Triggered by</p>
 <ul>
@@ -2559,29 +2671,29 @@ expand -t 16</code></pre>
 <p>Using <code>… -v 'date:date-time()' -b</code> (rather than <code>…='date:date-time()'</code>) to avoid <code>xmlstarlet select</code>’s <a href="#select-exslt-namespace-issue">EXSLT namespace issue</a>.</p>
 <p>Output:</p>
 <pre class="lang-none"><code># America/Vancouver
-dttodayL        2023-01-29T08:26:40-08:00
-tzoffset        -08:00
-tzseconds       -28800
-dttodayZ        2023-01-29T16:26:40+00:00
-dttoday2L       2023-01-29T08:26:40-08:00
+dttodayL        2023-08-15T13:04:07-07:00
+tzoffset        -07:00
+tzseconds       -25200
+dttodayZ        2023-08-15T20:04:07+00:00
+dttoday2L       2023-08-15T13:04:07-07:00
 # Europe/Vatican
-dttodayL        2023-01-29T17:26:40+01:00
-tzoffset        +01:00
-tzseconds       3600
-dttodayZ        2023-01-29T16:26:40+00:00
-dttoday2L       2023-01-29T17:26:40+01:00
+dttodayL        2023-08-15T22:04:07+02:00
+tzoffset        +02:00
+tzseconds       7200
+dttodayZ        2023-08-15T20:04:07+00:00
+dttoday2L       2023-08-15T22:04:07+02:00
 # Asia/Manila
-dttodayL        2023-01-30T00:26:40+08:00
+dttodayL        2023-08-16T04:04:07+08:00
 tzoffset        +08:00
 tzseconds       28800
-dttodayZ        2023-01-29T16:26:40+00:00
-dttoday2L       2023-01-30T00:26:40+08:00
+dttodayZ        2023-08-15T20:04:07+00:00
+dttoday2L       2023-08-16T04:04:07+08:00
 # Pacific/Chatham
-dttodayL        2023-01-30T06:11:40+13:45
-tzoffset        +13:45
-tzseconds       49500
-dttodayZ        2023-01-29T16:26:40+00:00
-dttoday2L       2023-01-30T06:11:40+13:45</code></pre>
+dttodayL        2023-08-16T08:49:07+12:45
+tzoffset        +12:45
+tzseconds       45900
+dttodayZ        2023-08-15T20:04:07+00:00
+dttoday2L       2023-08-16T08:49:07+12:45</code></pre>
 <h4 id="use-setleading-and-settrailing" class="shew-tgt">Use <code>set:leading</code> and <code>set:trailing</code><a href="#use-setleading-and-settrailing" class="permalink shew-hover"></a><div class="toolbar shew-hover h4"><a class="relup shew-hover" href="#exslt"></a><span class="relnop shew-hover"></span></div></h4>
 <p><em>Links</em>: EXSLT <a href="https://exslt.github.io/set/index.html"><code>set</code> functions</a> on github.io</p>
 <p>Using an explicit namespace declaration <code>-N str='…'</code> to avoid <code>xmlstarlet select</code>’s <a href="#select-exslt-namespace-issue">EXSLT namespace issue</a>.</p>
@@ -3126,7 +3238,7 @@ http://xmlsoft.org/XSLT/</code></pre>
 <p>… as output by:</p>
 <pre class="lang-text"><code>xmlstarlet transform --show-ext 2&gt;&amp;1 |
 awk -F '\n' -v S='sort' '/^Registered|^-*$/{ close(S); print; next } { print | S }'</code></pre>
-<p><span class="caution"><strong>Caution</strong></span>: Missing from above list is the EXSLT extension element <code>{http://exslt.org/functions}function</code> (aka <code>func:function</code>) which works as <a href="https://exslt.github.io/func/elements/function/index.html">documented</a> in <code>xmlstarlet</code>.</p>
+<p><span class="caution"><strong>Caution</strong></span>: Missing from above list is the EXSLT extension element <code>{http://exslt.org/functions}function</code> (aka <code>func:function</code>) which works as <a href="https://exslt.github.io/func/elements/function/index.html">documented</a> in <code>libexslt</code> despite<code>element-available("func:function")</code> returning <code>false</code>.</p>
 <div class="dinkus1">
 
 </div>
@@ -3490,6 +3602,7 @@ Thanks,
 <li class="level4"><a href="#xml-parsing-and-serialization">XML parsing and serialization</a></li>
 <li class="level4"><a href="#xml-external-entities">XML external entities</a></li>
 <li class="level4"><a href="#exit-values">Exit values</a></li>
+<li class="level4"><a href="#numeric-representation">Numeric representation</a></li>
 <li class="level4"><a href="#one-lining">One-lining</a></li>
 <li class="level4"><a href="#makefile-notes-gnu-make"><code>makefile</code> notes (GNU Make)</a></li>
 </ul></li>
@@ -3573,7 +3686,7 @@ Thanks,
 <li class="level4"><a href="#edit-opt-omit-decl"><code>-O (--omit-decl)</code> - omit XML declaration</a></li>
 <li class="level4"><a href="#edit-opt-pf"><code>-P (--pf)</code> - preserve original formatting</a></li>
 <li class="level4"><a href="#edit-opt-ps"><code>-S (--ps)</code> - preserve non-significant spaces</a></li>
-<li class="level4"><a href="#edit-opt-inplace"><code>-L (--inplace)</code> - edit input file in-place</a></li>
+<li class="level4"><a href="#edit-opt-inplace"><code>-L (--inplace)</code> - edit input file(s) in-place</a></li>
 <li class="level4"><a href="#edit-opt-net"><code>--net</code> - allow network access</a></li>
 <li class="level4"><a href="#edit-opt-n"><code>-N «prefix»=«value»</code> - declare namespaces</a></li>
 </ul></li>
@@ -3599,6 +3712,7 @@ Thanks,
 <li class="level4"><a href="#toggle-01-or-falsetrue">Toggle 0/1 or false/true</a></li>
 <li class="level4"><a href="#replace-text">Replace text</a></li>
 <li class="level4"><a href="#update-or-add-if-not-exists">Update or add if not exists</a></li>
+<li class="level4"><a href="#add-if-condition">Add if «condition»</a></li>
 <li class="level4"><a href="#duplicate-an-element-keep-the-formatting">Duplicate an element, keep the formatting</a></li>
 <li class="level4"><a href="#edit-moving-nodes">Moving nodes using <code>xmlstarlet edit -m or -a, -u, -r, -d</code></a></li>
 <li class="level4"><a href="#divide-a-document-into-sections">Divide a document into sections</a></li>
@@ -3739,6 +3853,7 @@ Thanks,
 <li class="level3"><a href="#error-namespace-prefix-not-defined">Namespace prefix «name» … is not defined</a></li>
 <li class="level3"><a href="#error-undefined-namespace-prefix">Undefined namespace prefix</a></li>
 <li class="level3"><a href="#warning-unrecognized-option-option">Warning: unrecognized option «option»</a></li>
+<li class="level3"><a href="#xmlsax2characters-huge-text-node-out-of-memory">xmlSAX2Characters: huge text node: out of memory</a></li>
 <li class="level3"><a href="#error-xmlxpathcompopeval-function-name-bound-to-undefined-prefix-name">xmlXPathCompOpEval: function «name» bound to undefined prefix «name»</a></li>
 <li class="level3"><a href="#error-xmlxpathcompopeval-function-name-not-found">xmlXPathCompOpEval: function «name» not found</a></li>
 <li class="level3"><a href="#error-xsl-extension-element-prefix-undefined-namespace-name">xsl:extension-element-prefix : undefined namespace «name»</a></li>

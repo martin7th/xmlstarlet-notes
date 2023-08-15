@@ -10,6 +10,39 @@
     <section id="sec-news">
       <h1 class="shew-tgt"><code>xmlstarlet-notes</code> news<a href="news.html#" class="permalink shew-hover"></a></h1>
       <p>Link: <a href="index.html">https://martin7th.github.io/xmlstarlet-notes/</a></p>
+      <h2 id="version-2023-08-15" class="shew-tgt">Version 2023-08-15<a href="news.html#version-2023-08-15" class="permalink shew-hover"></a></h2>
+      <h4 id="xml-parsing-and-serialization">XML parsing and serialization</h4>
+      <p><a href="index.html#xml-parsing-and-serialization" title="section General notes"><sup>(link)</sup></a> Added example: CDATA can protect against default serialization.</p>
+      <h4 id="numeric-representation">Numeric representation</h4>
+      <p><a href="index.html#numeric-representation" title="section General notes"><sup>(link)</sup></a> New entry, with examples of <code>libxml2</code> numbers in scientific notation.</p>
+      <h4 id="version-2023-08-15-edit-opt-inplace"><code>-L (--inplace)</code> - edit input file(s) in-place</h4>
+      <p><a href="index.html#edit-opt-inplace" title="section Edit: `xmlstarlet edit`"><sup>(link)</sup></a> Added:</p>
+      <ul>
+        <li>formats the input file(s) unless option <a href="index.html#edit-opt-pf"><code>-P (--pf)</code></a> is given</li>
+        <li>updates the timestamps of the input file(s) even if output is identical to input</li>
+      </ul>
+      <h4 id="version-2023-08-15-add-if-condition">Add if «condition»</h4>
+      <p><a href="index.html#add-if-condition" title="section Edit: `xmlstarlet edit`"><sup>(link)</sup></a> New entry, demonstrating <code>if-then-else</code> logic with <code>xmlstarlet edit</code>.</p>
+      <h4 id="version-2023-08-15-transform-opt-xinclude"><code>--xinclude</code> - do XInclude processing on document input</h4>
+      <p><a href="index.html#transform-opt-xinclude" title="section The T in XSLT: `xmlstarlet transform`"><sup>(link)</sup></a> The entire entry on XInclude has been rewritten.</p>
+      <h4 id="version-2023-08-15-xmlsax2characters-huge-text-node-out-of-memory">xmlSAX2Characters: huge text node: out of memory</h4>
+      <p><a href="index.html#xmlsax2characters-huge-text-node-out-of-memory" title="section Error messages"><sup>(link)</sup></a> Added error message.</p>
+      <h4 id="version-2023-08-15-patch-huge">Patch adds <code>--huge</code> and <code>--big-lines</code> options to <code>xmlstarlet</code></h4>
+      <p>Recently the author of the <code>xmlstarlet-notes</code> document has provided a <a href="https://github.com/martin7th/xmlstarlet-patch-huge/">patch</a> to make <code>xmlstarlet</code> use ‘huge’ nodes and ‘big lines’. It requires the program to be rebuilt from source code.</p>
+      <p>Quoting from the README:</p>
+      <blockquote>
+        <p>This patch adds 2 global options to <a href="https://xmlstar.sourceforge.net/" title="'xmlstarlet' on SourceForge"><code>xmlstarlet</code></a>, available in the subcommands <code>elements</code>, <code>select</code>, <code>edit</code>, <code>format</code>, <code>canonic</code>, <code>validate</code>, and <code>transform</code>:</p>
+        <ul>
+          <li>
+            <p><code>--huge</code><br/>
+Load XML files with <a href="https://gitlab.gnome.org/GNOME/libxml2/-/wikis/home" title="'libxml2 Wiki Home' on gitlab.gnome.org"><code>libxml2</code></a>’s <code>XML_PARSE_HUGE</code> parser option. Without this option the parser will fail with a “xmlSAX2Characters: huge text node: out of memory” error when loading a text node larger than 10 MB. (<code>xmlstarlet</code>’s <code>pyx</code> subcommand uses the SAX API which has no such limitation.) In <code>libxml2</code> the <code>XML_PARSE_HUGE</code> option is disabled by default to prevent denial-of-service attacks.</p>
+          </li>
+          <li>
+            <p><code>--big-lines</code><br/>
+Load XML files with <code>libxml2</code>’s <code>XML_PARSE_BIG_LINES</code> parser option. This allows line numbers larger than 65535 to be reported correctly in error messages and (for <code>select</code> and <code>transform</code>) in output from the <code>saxon:line-number</code> extension. There is currently an open <a href="https://gitlab.gnome.org/GNOME/libxml2/-/issues/361" title="Issue 'Incorrect line number reported if higher than 65535 in some cases' on gitlab.gnome.org">issue</a> on this option suggesting it’s limited to text nodes, however, it appears to have been resolved by now as line numbers are output as expected for all node types except the root node (<code>/</code>) which is fixed at line <code>-1</code>.</p>
+          </li>
+        </ul>
+      </blockquote>
       <h2 id="version-2023-01-29" class="shew-tgt">Version 2023-01-29<a href="news.html#version-2023-01-29" class="permalink shew-hover"></a></h2>
       <h4 id="version-2023-01-29-special-characters">Special characters</h4>
       <p><a href="index.html#special-characters" title="section General notes: Special characters"><sup>(link)</sup></a><code>edit</code> newline variable example changed:</p>
