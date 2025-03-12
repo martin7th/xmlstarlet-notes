@@ -10,36 +10,135 @@
     <section id="sec-news">
       <h1 class="shew-tgt"><code>xmlstarlet-notes</code> news<a href="news.html#" class="permalink shew-hover"></a></h1>
       <p>Link: <a href="index.html">https://martin7th.github.io/xmlstarlet-notes/</a></p>
+      <h2 id="version-2025-03-12" class="shew-tgt">Version 2025-03-12<a href="news.html#version-2025-03-12" class="permalink shew-hover"></a></h2>
+      <h4 id="repology.org-links"><code>repology.org</code> links</h4>
+      <p><a href="index.html#selected-resources" title="section Documentation"><sup>(link)</sup></a> Added links to the
+versions pages at <code>repology.org</code> for <code>xmlstarlet</code>,
+<code>libxml2</code>, and <code>libxslt</code>.</p>
+      <h4 id="correction---doc-namespace-reads-from-first-input-file">Correction:
+<code>--doc-namespace</code> reads from first input file</h4>
+      <p><a href="index.html#global-opt-doc-namespace" title="section Global options and parameters"><sup>(link)</sup></a><a href="index.html#namespaces-use" title="section Namespaces"><sup>(link)</sup></a> Clarified that by
+default (<code>--doc-namespace</code> being in effect) namespaces
+declared in the root element of the <em>first</em> input file need not
+be declared with <code>-N</code> options. <code>select</code> and
+<code>edit</code> both support multiple input files.</p>
+      <h4 id="visualize-xml-document-structure">Visualize XML document
+structure</h4>
+      <p><a href="index.html#elements-visualize-xml-document-structure" title="section Elements"><sup>(link)</sup></a> New entry: process output
+from <code>xmlstarlet elements</code> with <code>awk</code> and
+<code>graphviz</code>’ <code>dot</code>.</p>
+      <h4 id="omissions-fixed-select-section">Omissions fixed
+(<code>select</code> section)</h4>
+      <p><a href="index.html#select" title="section Select"><sup>(link)</sup></a><code>xsl:sort</code> was
+missing in the intro.</p>
+      <p><a href="index.html#select-opt-var-equals" title="section Select: `--var «name»=«value»`"><sup>(link)</sup></a><code>select="«value»"</code> was missing in the <code>--var</code>
+header.</p>
+      <h4 id="removed-extract-subtree-example-null-ns-hack-in-select-section">Removed
+extract subtree example (“null-ns hack” in <code>select</code>
+section)</h4>
+      <p>(It seemed a good idea at the time.)</p>
+      <h4 id="xslt-function-generate-id-fixed-in-libxslt-1.1.38">XSLT function
+<code>generate-id()</code> fixed in <code>libxslt 1.1.38</code></h4>
+      <p>A long-standing issue with <code>libxslt</code> has been fixed in
+version <a href="https://download.gnome.org/sources/libxslt/1.1/libxslt-1.1.38.news" title="libxslt-1.1.38.news">1.1.38</a>: <q>The result of generate-id()
+is now deterministic across multiple transformations fixing many issues
+with reproducible builds.</q></p>
+      <p>This means that <code>xmlstarlet</code>’s <code>select</code> and
+<code>transform</code> commands can do variable-based grouping without
+using <code>xsl:key</code>, axes, or extensions, and even group across
+multiple files in one pass. For examples see postings by G. Ken Holman
+on <a href="https://stackoverflow.com/a/18958901" title="Ignore duplicate elements across multiple files"><code>stackoverflow.com</code></a>
+and <a href="https://sourceware.org/legacy-ml/xsl-list/2001-10/msg00933.html" title="New approach to grouping problem that doesn't use keys or axes"><code>xsl-list</code></a>.</p>
+      <h4 id="attempt-to-load-network-entity-name">Attempt to load network
+entity «name»</h4>
+      <p><a href="index.html#error-attempt-to-load-network-entity" title="section Error messages"><sup>(link)</sup></a> Added error
+message. Triggered by missing <code>--net</code> option.</p>
+      <h4 id="entity-name-not-defined">Entity ‘«name»’ not defined</h4>
+      <p><a href="index.html#entity-not-defined" title="section Error messages"><sup>(link)</sup></a> Added error
+message. Only <code>select</code>, <code>transform</code>, and
+<code>canonic</code> seem to understand an entity reference.</p>
+      <h4 id="invalid-expression-pathname">Invalid expression:
+‘«pathname»’</h4>
+      <p><a href="index.html#error-invalid-expression-pathname" title="section Error messages"><sup>(link)</sup></a> Added error
+message. <code>select</code> fails with a run-time error if input file
+pathnames on the command line contain single quotes (known bug).</p>
+      <h4 id="correction-funcfunction-appendix-a">Correction:
+<code>func:function</code> (Appendix A)</h4>
+      <p><a href="index.html#sec-app-a-xslt-extensions" title="Appendix A: `xmlstarlet` XSLT extensions"><sup>(link)</sup></a>
+Deleted phrase: <q>despite
+<code>element-available("func:function")</code> returning
+<code>false</code></q>.</p>
+      <p><code>element-available</code> isn’t supposed to return true for
+<code>func:function</code> as this is a top-level element, not an
+instruction, per the XSLT 1.0 recommendation sections <a href="https://www.w3.org/TR/1999/REC-xslt-19991116#extension-element" title="14.1 Extension Elements - W3C XSLT 1.0 recommendation">14.1</a>
+and <a href="https://www.w3.org/TR/1999/REC-xslt-19991116#fallback" title="15 Fallback - W3C XSLT 1.0 recommendation">15</a>.</p>
+      <p>The cautionary note about the missing listing of
+<code>{http://exslt.org/functions}function</code> has been removed
+because <code>libxslt</code> since version 1.1.39 registers and lists it
+as a top-level extension element.</p>
       <h2 id="version-2023-08-15" class="shew-tgt">Version 2023-08-15<a href="news.html#version-2023-08-15" class="permalink shew-hover"></a></h2>
-      <h4 id="xml-parsing-and-serialization">XML parsing and serialization</h4>
-      <p><a href="index.html#xml-parsing-and-serialization" title="section General notes"><sup>(link)</sup></a> Added example: CDATA can protect against default serialization.</p>
+      <h4 id="xml-parsing-and-serialization">XML parsing and
+serialization</h4>
+      <p><a href="index.html#xml-parsing-and-serialization" title="section General notes"><sup>(link)</sup></a> Added example: CDATA
+can protect against default serialization.</p>
       <h4 id="numeric-representation">Numeric representation</h4>
-      <p><a href="index.html#numeric-representation" title="section General notes"><sup>(link)</sup></a> New entry, with examples of <code>libxml2</code> numbers in scientific notation.</p>
-      <h4 id="version-2023-08-15-edit-opt-inplace"><code>-L (--inplace)</code> - edit input file(s) in-place</h4>
+      <p><a href="index.html#numeric-representation" title="section General notes"><sup>(link)</sup></a> New entry, with
+examples of <code>libxml2</code> numbers in scientific notation.</p>
+      <h4 id="version-2023-08-15-edit-opt-inplace"><code>-L (--inplace)</code>
+- edit input file(s) in-place</h4>
       <p><a href="index.html#edit-opt-inplace" title="section Edit: `xmlstarlet edit`"><sup>(link)</sup></a> Added:</p>
       <ul>
         <li>formats the input file(s) unless option <a href="index.html#edit-opt-pf"><code>-P (--pf)</code></a> is given</li>
-        <li>updates the timestamps of the input file(s) even if output is identical to input</li>
+        <li>updates the timestamps of the input file(s) even if output is
+identical to input</li>
       </ul>
       <h4 id="version-2023-08-15-add-if-condition">Add if «condition»</h4>
-      <p><a href="index.html#add-if-condition" title="section Edit: `xmlstarlet edit`"><sup>(link)</sup></a> New entry, demonstrating <code>if-then-else</code> logic with <code>xmlstarlet edit</code>.</p>
-      <h4 id="version-2023-08-15-transform-opt-xinclude"><code>--xinclude</code> - do XInclude processing on document input</h4>
-      <p><a href="index.html#transform-opt-xinclude" title="section The T in XSLT: `xmlstarlet transform`"><sup>(link)</sup></a> The entire entry on XInclude has been rewritten.</p>
-      <h4 id="version-2023-08-15-xmlsax2characters-huge-text-node-out-of-memory">xmlSAX2Characters: huge text node: out of memory</h4>
-      <p><a href="index.html#xmlsax2characters-huge-text-node-out-of-memory" title="section Error messages"><sup>(link)</sup></a> Added error message.</p>
-      <h4 id="version-2023-08-15-patch-huge">Patch adds <code>--huge</code> and <code>--big-lines</code> options to <code>xmlstarlet</code></h4>
-      <p>Recently the author of the <code>xmlstarlet-notes</code> document has provided a <a href="https://github.com/martin7th/xmlstarlet-patch-huge/">patch</a> to make <code>xmlstarlet</code> use ‘huge’ nodes and ‘big lines’. It requires the program to be rebuilt from source code.</p>
+      <p><a href="index.html#add-if-condition" title="section Edit: `xmlstarlet edit`"><sup>(link)</sup></a> New entry,
+demonstrating <code>if-then-else</code> logic with
+<code>xmlstarlet edit</code>.</p>
+      <h4 id="version-2023-08-15-transform-opt-xinclude"><code>--xinclude</code> -
+do XInclude processing on document input</h4>
+      <p><a href="index.html#transform-opt-xinclude" title="section The T in XSLT: `xmlstarlet transform`"><sup>(link)</sup></a>
+The entire entry on XInclude has been rewritten.</p>
+      <h4 id="version-2023-08-15-xmlsax2characters-huge-text-node-out-of-memory">xmlSAX2Characters:
+huge text node: out of memory</h4>
+      <p><a href="index.html#xmlsax2characters-huge-text-node-out-of-memory" title="section Error messages"><sup>(link)</sup></a> Added error
+message.</p>
+      <h4 id="version-2023-08-15-patch-huge">Patch adds <code>--huge</code>
+and <code>--big-lines</code> options to <code>xmlstarlet</code></h4>
+      <p>Recently the author of the <code>xmlstarlet-notes</code> document has
+provided a <a href="https://github.com/martin7th/xmlstarlet-patch-huge/">patch</a> to
+make <code>xmlstarlet</code> use ‘huge’ nodes and ‘big lines’. It
+requires the program to be rebuilt from source code.</p>
       <p>Quoting from the README:</p>
       <blockquote>
-        <p>This patch adds 2 global options to <a href="https://xmlstar.sourceforge.net/" title="'xmlstarlet' on SourceForge"><code>xmlstarlet</code></a>, available in the subcommands <code>elements</code>, <code>select</code>, <code>edit</code>, <code>format</code>, <code>canonic</code>, <code>validate</code>, and <code>transform</code>:</p>
+        <p>This patch adds 2 global options to <a href="https://xmlstar.sourceforge.net/" title="'xmlstarlet' on SourceForge"><code>xmlstarlet</code></a>,
+available in the subcommands <code>elements</code>, <code>select</code>,
+<code>edit</code>, <code>format</code>, <code>canonic</code>,
+<code>validate</code>, and <code>transform</code>:</p>
         <ul>
           <li>
             <p><code>--huge</code><br/>
-Load XML files with <a href="https://gitlab.gnome.org/GNOME/libxml2/-/wikis/home" title="'libxml2 Wiki Home' on gitlab.gnome.org"><code>libxml2</code></a>’s <code>XML_PARSE_HUGE</code> parser option. Without this option the parser will fail with a “xmlSAX2Characters: huge text node: out of memory” error when loading a text node larger than 10 MB. (<code>xmlstarlet</code>’s <code>pyx</code> subcommand uses the SAX API which has no such limitation.) In <code>libxml2</code> the <code>XML_PARSE_HUGE</code> option is disabled by default to prevent denial-of-service attacks.</p>
+Load XML files with <a href="https://gitlab.gnome.org/GNOME/libxml2/-/wikis/home" title="'libxml2 Wiki Home' on gitlab.gnome.org"><code>libxml2</code></a>’s
+<code>XML_PARSE_HUGE</code> parser option. Without this option the
+parser will fail with a “xmlSAX2Characters: huge text node: out of
+memory” error when loading a text node larger than 10 MB.
+(<code>xmlstarlet</code>’s <code>pyx</code> subcommand uses the SAX API
+which has no such limitation.) In <code>libxml2</code> the
+<code>XML_PARSE_HUGE</code> option is disabled by default to prevent
+denial-of-service attacks.</p>
           </li>
           <li>
             <p><code>--big-lines</code><br/>
-Load XML files with <code>libxml2</code>’s <code>XML_PARSE_BIG_LINES</code> parser option. This allows line numbers larger than 65535 to be reported correctly in error messages and (for <code>select</code> and <code>transform</code>) in output from the <code>saxon:line-number</code> extension. There is currently an open <a href="https://gitlab.gnome.org/GNOME/libxml2/-/issues/361" title="Issue 'Incorrect line number reported if higher than 65535 in some cases' on gitlab.gnome.org">issue</a> on this option suggesting it’s limited to text nodes, however, it appears to have been resolved by now as line numbers are output as expected for all node types except the root node (<code>/</code>) which is fixed at line <code>-1</code>.</p>
+Load XML files with <code>libxml2</code>’s
+<code>XML_PARSE_BIG_LINES</code> parser option. This allows line numbers
+larger than 65535 to be reported correctly in error messages and (for
+<code>select</code> and <code>transform</code>) in output from the
+<code>saxon:line-number</code> extension. There is currently an open <a href="https://gitlab.gnome.org/GNOME/libxml2/-/issues/361" title="Issue 'Incorrect line number reported if higher than 65535 in some cases' on gitlab.gnome.org">issue</a>
+on this option suggesting it’s limited to text nodes, however, it
+appears to have been resolved by now as line numbers are output as
+expected for all node types except the root node (<code>/</code>) which
+is fixed at line <code>-1</code>.</p>
           </li>
         </ul>
       </blockquote>
@@ -49,62 +148,130 @@ Load XML files with <code>libxml2</code>’s <code>XML_PARSE_BIG_LINES</code> pa
       <p>
         <code>--var nl 'substring-before('"$(printf '"\nA"')"',"A")'</code>
       </p>
-      <h4 id="version-2023-01-29-xml-parsing-and-serialization">XML parsing and serialization</h4>
-      <p><a href="index.html#xml-parsing-and-serialization" title="section General notes: XML parsing and serialization"><sup>(link)</sup></a> Added:</p>
-      <p>The <code>xmlEscapeEntities</code> function in <a href="index.html#selected-resources"><code>libxml2</code></a>’s <a href="https://gitlab.gnome.org/GNOME/libxml2/-/blob/master/xmlsave.c#L165"><code>xmlsave.c</code></a> serialization module gives special treatment to characters <code>&amp;&lt;&gt;</code> (output as <code>&amp;amp;</code>, <code>&amp;lt;</code>, and <code>&amp;gt;</code>) but neither apostrophe nor double quote (<code>'"</code>). <code>xmlstarlet</code> has no option to override this.</p>
-      <h4 id="version-2023-01-29-edit-prev">Back reference <code>$prev</code> variable</h4>
-      <p><a href="index.html#edit-prev" title="section Edit: `xmlstarlet edit`"><sup>(link)</sup></a> Changed:</p>
-      <p>The <code>$prev</code> variable refers to a nodeset (changed from ‘node’).</p>
+      <h4 id="version-2023-01-29-xml-parsing-and-serialization">XML parsing
+and serialization</h4>
+      <p><a href="index.html#xml-parsing-and-serialization" title="section General notes: XML parsing and serialization"><sup>(link)</sup></a>
+Added:</p>
+      <p>The <code>xmlEscapeEntities</code> function in <a href="index.html#selected-resources"><code>libxml2</code></a>’s <a href="https://gitlab.gnome.org/GNOME/libxml2/-/blob/master/xmlsave.c#L165"><code>xmlsave.c</code></a>
+serialization module gives special treatment to characters
+<code>&amp;&lt;&gt;</code> (output as <code>&amp;amp;</code>,
+<code>&amp;lt;</code>, and <code>&amp;gt;</code>) but neither apostrophe
+nor double quote (<code>'"</code>). <code>xmlstarlet</code> has no
+option to override this.</p>
+      <h4 id="version-2023-01-29-edit-prev">Back reference <code>$prev</code>
+variable</h4>
+      <p><a href="index.html#edit-prev" title="section Edit: `xmlstarlet edit`"><sup>(link)</sup></a>
+Changed:</p>
+      <p>The <code>$prev</code> variable refers to a nodeset (changed from
+‘node’).</p>
       <h4 id="version-2023-01-29-pyx">PYX: xmlstarlet pyx, depyx</h4>
-      <p><a href="index.html#pyx" title="section PYX: `xmlstarlet pyx, depyx`"><sup>(link)</sup></a> Added:</p>
-      <p>a <code>pyx | depyx</code> pipeline <em>does not guarantee</em> an accurate roundtrip</p>
-      <h4 id="version-2023-01-29-error-namespace-prefix-not-defined">Namespace prefix «name» … is not defined</h4>
-      <p><a href="index.html#error-namespace-prefix-not-defined" title="section Error messages"><sup>(link)</sup></a> New entry, dealing with <code>:</code> (colon) in a name when not indicating a namespace prefix.</p>
-      <h4 id="version-2023-01-29-context-node-and-current-node">Context node and current node</h4>
-      <p><sup>(links)</sup>: <a href="index.html#select-opt-template" title="section Query: `xmlstarlet select`"><code>select -t (--template)</code></a> | <a href="index.html#select-opt-match" title="section Query: `xmlstarlet select`"><code>select -m (--match)</code></a> | <a href="index.html#ex4-external-lookup-table" title="section Query: `xmlstarlet select`">ex4: external lookup table</a> | <a href="index.html#extract-subtree-to-depth-n-removing-namespaces" title="section Query: `xmlstarlet select`">extract subtree example</a> | <a href="index.html#edit" title="section Edit: `xmlstarlet edit`"><code>xmlstarlet edit</code></a> | <a href="index.html#compute-xml-tree-height" title="section EXSLT and other extensions">tree height example</a> <br/> Changed:</p>
-      <p>The <a href="https://www.w3.org/TR/1999/REC-xslt-19991116#dt-current-node" title="W3C XSLT 1.0 recommendation">current node</a> – part of the XSLT processing model – was referred to as <a href="https://www.w3.org/TR/1999/REC-xpath-19991116#dt-context-node" title="W3C XPath 1.0 recommendation">context node</a> – part of the XPath evaluation context. Changed to ‘current node’ as this is more in line with XSLT 1.0 terminology.</p>
+      <p><a href="index.html#pyx" title="section PYX: `xmlstarlet pyx, depyx`"><sup>(link)</sup></a>
+Added:</p>
+      <p>a <code>pyx | depyx</code> pipeline <em>does not guarantee</em> an
+accurate roundtrip</p>
+      <h4 id="version-2023-01-29-error-namespace-prefix-not-defined">Namespace
+prefix «name» … is not defined</h4>
+      <p><a href="index.html#error-namespace-prefix-not-defined" title="section Error messages"><sup>(link)</sup></a> New entry, dealing
+with <code>:</code> (colon) in a name when not indicating a namespace
+prefix.</p>
+      <h4 id="version-2023-01-29-context-node-and-current-node">Context node
+and current node</h4>
+      <p><sup>(links)</sup>: <a href="index.html#select-opt-template" title="section Query: `xmlstarlet select`"><code>select -t (--template)</code></a>
+| <a href="index.html#select-opt-match" title="section Query: `xmlstarlet select`"><code>select -m (--match)</code></a>
+| <a href="index.html#ex4-external-lookup-table" title="section Query: `xmlstarlet select`">ex4: external lookup
+table</a> | <a href="index.html#extract-subtree-to-depth-n-removing-namespaces" title="section Query: `xmlstarlet select`">extract subtree example</a> |
+<a href="index.html#edit" title="section Edit: `xmlstarlet edit`"><code>xmlstarlet edit</code></a>
+| <a href="index.html#compute-xml-tree-height" title="section EXSLT and other extensions">tree height example</a> <br/>
+Changed:</p>
+      <p>The <a href="https://www.w3.org/TR/1999/REC-xslt-19991116#dt-current-node" title="dt-current-node - W3C XSLT 1.0 recommendation">current node</a> –
+part of the XSLT processing model – was referred to as <a href="https://www.w3.org/TR/1999/REC-xpath-19991116#dt-context-node" title="dt-context-node - W3C XPath 1.0 recommendation">context node</a>
+– part of the XPath evaluation context. Changed to ‘current node’ as
+this is more in line with XSLT 1.0 terminology.</p>
       <h2 id="version-2022-10-31" class="shew-tgt">Version 2022-10-31<a href="news.html#version-2022-10-31" class="permalink shew-hover"></a></h2>
-      <p>SourceForge now accepts the HTTPS protocol so all remaining HTTP links (<code>xmlstar.sourceforge.net</code> and <code>saxon.sourceforge.net</code>) have been changed to HTTPS.</p>
-      <h4 id="version-2022-10-31-global-opt-quiet"><code>-q (--quiet)</code>: suppress error output</h4>
+      <p>SourceForge now accepts the HTTPS protocol so all remaining HTTP
+links (<code>xmlstar.sourceforge.net</code> and
+<code>saxon.sourceforge.net</code>) have been changed to HTTPS.</p>
+      <h4 id="version-2022-10-31-global-opt-quiet"><code>-q (--quiet)</code>:
+suppress error output</h4>
       <p><a href="index.html#global-opt-quiet" title="section Global options"><sup>(link)</sup></a> Changes:</p>
-      <p>Removed: ‘<span class="caution"><strong>Caution</strong></span>: this option is ignored by <code>xmlstarlet edit</code>.’</p>
+      <p>Removed: ‘<span class="caution"><strong>Caution</strong></span>: this
+option is ignored by <code>xmlstarlet edit</code>.’</p>
       <p>Added: Link to <code>format -Q (--quiet)</code> local option.</p>
-      <h4 id="format-opt-quiet"><code>-Q (--quiet)</code> [undocumented] - suppress error output</h4>
-      <p><a href="index.html#format-opt-quiet" title="section Format: `xmlstarlet format`"><sup>(link)</sup></a> New entry:</p>
-      <p>Does what the <a href="#global-opt-quiet"><code>-q (--quiet)</code></a> global option does.</p>
-      <h4 id="select-opt-break"><code>-b (--break)</code> ends current container element</h4>
-      <p><a href="index.html#select-opt-break" title="section Query: `xmlstarlet select`"><sup>(link)</sup></a> Changes:</p>
-      <p>Added to the <code>--var without =</code> list item: any nested <code>--var</code>s are local to the enclosing <code>--var</code> but must have unique variable names.</p>
+      <h4 id="format-opt-quiet"><code>-Q (--quiet)</code> [undocumented] -
+suppress error output</h4>
+      <p><a href="index.html#format-opt-quiet" title="section Format: `xmlstarlet format`"><sup>(link)</sup></a> New
+entry:</p>
+      <p>Does what the <a href="#global-opt-quiet"><code>-q (--quiet)</code></a> global option
+does.</p>
+      <h4 id="select-opt-break"><code>-b (--break)</code> ends current
+container element</h4>
+      <p><a href="index.html#select-opt-break" title="section Query: `xmlstarlet select`"><sup>(link)</sup></a>
+Changes:</p>
+      <p>Added to the <code>--var without =</code> list item: any nested
+<code>--var</code>s are local to the enclosing <code>--var</code> but
+must have unique variable names.</p>
       <h2 id="version-2022-09-30" class="shew-tgt">Version 2022-09-30<a href="news.html#version-2022-09-30" class="permalink shew-hover"></a></h2>
-      <h4 id="version-2022-09-30-users-guide-examples-source-code-forums">User’s guide, examples, source code, forums</h4>
-      <p><a href="index.html#users-guide-examples-source-code-forums" title="section Documentation"><sup>(link)</sup></a> 2nd and 3rd list item replaced with:</p>
+      <h4 id="version-2022-09-30-users-guide-examples-source-code-forums">User’s
+guide, examples, source code, forums</h4>
+      <p><a href="index.html#users-guide-examples-source-code-forums" title="section Documentation"><sup>(link)</sup></a> 2nd and 3rd list
+item replaced with:</p>
       <ul>
-        <li><code>xmlstarlet</code> on SourceForge: <a href="https://xmlstar.sourceforge.net/">homepage</a> | <a href="https://xmlstar.sourceforge.net/docs.php">docs</a> | <a href="https://xmlstar.sourceforge.net/doc/UG/">user’s guide</a> | <a href="https://sourceforge.net/p/xmlstar/news/">news</a> | <a href="http://xmlstar.sourceforge.net/source.php">source</a> | <a href="https://sourceforge.net/projects/xmlstar/files/xmlstarlet/">files</a> | <a href="https://sourceforge.net/p/xmlstar/discussion/">discussion</a> | <a href="https://sourceforge.net/p/xmlstar/bugs/">bugs</a><br/>
-<span class="caution"><strong>Caution</strong></span>: the <a href="https://xmlstar.sourceforge.net/doc/xmlstarlet.txt"><code>doc/xmlstarlet.txt</code></a> there is not the latest version as it doesn’t mention <a href="#edit-prev"><code>$prev</code></a>, <a href="#edit-opt-var"><code>--var</code></a>, <a href="#edit-opt-inplace"><code>-L (--inplace)</code></a>, and <a href="#transform-opt-embed"><code>-E (--embed)</code></a> – the user’s guide is still silent on these</li>
-        <li><code>xmlstarlet</code> on <a href="https://fossies.org/about.html" title="Fossies - Fresh Open Source Software mainly for Internet, Engineering and Science">Fossies</a> – an accessible presentation of source, examples, and more:<br/>
-<a href="https://fossies.org/linux/www/xmlstarlet"><code>xmlstarlet-1.6.1.tar.gz</code></a> contents | <a href="https://fossies.org/linux/xmlstarlet/doc/xmlstarlet-ug.html"><code>xmlstarlet</code> user’s guide</a> (1-page) | <a href="https://fossies.org/linux/xmlstarlet/doc/xmlstarlet.txt"><code>doc/xmlstarlet.txt</code></a> (latest version)</li>
+        <li><code>xmlstarlet</code> on SourceForge: <a href="https://xmlstar.sourceforge.net/">homepage</a> | <a href="https://xmlstar.sourceforge.net/docs.php">docs</a> | <a href="https://xmlstar.sourceforge.net/doc/UG/">user’s guide</a> | <a href="https://sourceforge.net/p/xmlstar/news/">news</a> | <a href="http://xmlstar.sourceforge.net/source.php">source</a> | <a href="https://sourceforge.net/projects/xmlstar/files/xmlstarlet/">files</a>
+| <a href="https://sourceforge.net/p/xmlstar/discussion/">discussion</a>
+| <a href="https://sourceforge.net/p/xmlstar/bugs/">bugs</a><br/>
+<span class="caution"><strong>Caution</strong></span>: the <a href="https://xmlstar.sourceforge.net/doc/xmlstarlet.txt"><code>doc/xmlstarlet.txt</code></a>
+there is not the latest version as it doesn’t mention <a href="#edit-prev"><code>$prev</code></a>, <a href="#edit-opt-var"><code>--var</code></a>, <a href="#edit-opt-inplace"><code>-L (--inplace)</code></a>, and <a href="#transform-opt-embed"><code>-E (--embed)</code></a> – the user’s
+guide is still silent on these</li>
+        <li><code>xmlstarlet</code> on <a href="https://fossies.org/about.html" title="Fossies - Fresh Open Source Software mainly for Internet, Engineering and Science">Fossies</a>
+– an accessible presentation of source, examples, and more:<br/>
+<a href="https://fossies.org/linux/www/xmlstarlet"><code>xmlstarlet-1.6.1.tar.gz</code></a>
+contents | <a href="https://fossies.org/linux/xmlstarlet/doc/xmlstarlet-ug.html"><code>xmlstarlet</code>
+user’s guide</a> (1-page) | <a href="https://fossies.org/linux/xmlstarlet/doc/xmlstarlet.txt"><code>doc/xmlstarlet.txt</code></a>
+(latest version)</li>
       </ul>
-      <p>Links to <code>doc/xmlstarlet</code> changed to the latest version at Fossies here: <a href="#edit-prev"><code>$prev</code></a>, <a href="#edit-opt-var"><code>--var</code></a>, <a href="#edit-opt-inplace"><code>-L (--inplace)</code></a>, and <a href="#transform-opt-embed"><code>-E (--embed)</code></a>.</p>
-      <h4 id="version-2022-09-30-global-options">Global options and parameters</h4>
-      <p><a href="index.html#global-options" title="section `xmlstarlet` commands"><sup>(link)</sup></a> Added after 1st paragraph:</p>
-      <p>An input filename starting with <code>-</code> (dash) – unless it’s short for <code>stdin</code> – must be prefixed with <code>./</code> (dot slash) otherwise it will be parsed as an option, possibly causing <a href="#select"><code>select</code></a> (<span class="caution"><strong>Caution</strong></span>) to ignore the file.</p>
-      <p>Beware of known bugs for filenames containing (<a href="https://sourceforge.net/p/xmlstar/bugs/123/" title="Invalid expression: '/​tmp/​foo's.nfo'">#123</a> ) <code>'</code> (single quote), or (<a href="https://sourceforge.net/p/xmlstar/bugs/110/" title="ed --inplace 'foo%20bar.xml' writes to 'foo bar.xml'">#110</a>) urlencoded characters, e.g. <code>%20</code>.</p>
-      <p><em>See also</em>: <a href="#couldnt-read-file">couldn’t read file</a> | <a href="#failed-to-load-external-entity">failed to load external entity</a></p>
-      <h4 id="version-2022-09-30-edit-opt-inplace"><code>-L (--inplace)</code> - edit input file in-place</h4>
-      <p><a href="index.html#edit-opt-inplace" title="section Edit: `xmlstarlet edit`"><sup>(link)</sup></a> Added as last list item:</p>
+      <p>Links to <code>doc/xmlstarlet</code> changed to the latest version at
+Fossies here: <a href="#edit-prev"><code>$prev</code></a>, <a href="#edit-opt-var"><code>--var</code></a>, <a href="#edit-opt-inplace"><code>-L (--inplace)</code></a>, and <a href="#transform-opt-embed"><code>-E (--embed)</code></a>.</p>
+      <h4 id="version-2022-09-30-global-options">Global options and
+parameters</h4>
+      <p><a href="index.html#global-options" title="section `xmlstarlet` commands"><sup>(link)</sup></a> Added after
+1st paragraph:</p>
+      <p>An input filename starting with <code>-</code> (dash) – unless it’s
+short for <code>stdin</code> – must be prefixed with <code>./</code>
+(dot slash) otherwise it will be parsed as an option, possibly causing
+<a href="#select"><code>select</code></a> (<span class="caution"><strong>Caution</strong></span>) to ignore the file.</p>
+      <p>Beware of known bugs for filenames containing (<a href="https://sourceforge.net/p/xmlstar/bugs/123/" title="Invalid expression: '/​tmp/​foo's.nfo'">#123</a> )
+<code>'</code> (single quote), or (<a href="https://sourceforge.net/p/xmlstar/bugs/110/" title="ed --inplace 'foo%20bar.xml' writes to 'foo bar.xml'">#110</a>)
+urlencoded characters, e.g. <code>%20</code>.</p>
+      <p><em>See also</em>: <a href="#couldnt-read-file">couldn’t read
+file</a> | <a href="#failed-to-load-external-entity">failed to load
+external entity</a></p>
+      <h4 id="version-2022-09-30-edit-opt-inplace"><code>-L (--inplace)</code>
+- edit input file in-place</h4>
+      <p><a href="index.html#edit-opt-inplace" title="section Edit: `xmlstarlet edit`"><sup>(link)</sup></a> Added as
+last list item:</p>
       <ul>
-        <li>has a known bug for filenames containing urlencoded characters, e.g. <code>%20</code>, cf. <a href="#global-options">Global options and parameters</a></li>
+        <li>has a known bug for filenames containing urlencoded characters,
+e.g. <code>%20</code>, cf. <a href="#global-options">Global options and
+parameters</a></li>
       </ul>
       <h4 id="version-2022-09-30-couldnt-read-file">couldn’t read file</h4>
       <p>
         <sup>(new entry)</sup>
       </p>
-      <p>See <a href="#failed-to-load-external-entity">failed to load external entity</a> (re <code>stdin</code>)</p>
-      <h4 id="version-2022-09-30-failed-to-load-external-entity">failed to load external entity</h4>
-      <p><a href="index.html#failed-to-load-external-entity" title="section 'Error messages'"><sup>(link)</sup></a> 3rd list item changed to:</p>
+      <p>See <a href="#failed-to-load-external-entity">failed to load external
+entity</a> (re <code>stdin</code>)</p>
+      <h4 id="version-2022-09-30-failed-to-load-external-entity">failed to
+load external entity</h4>
+      <p><a href="index.html#failed-to-load-external-entity" title="section 'Error messages'"><sup>(link)</sup></a> 3rd list
+item changed to:</p>
       <ul>
         <li>missing or inaccessible resource
-<ul><li>if reading from <code>stdin</code> add a <code>-</code> (dash) to the command line to work around parsing issues, e.g. if <code>format</code>’s <a href="#format-opt-encode"><code>-e (--encode) «encoding»</code></a> is the last option (explanation: <code>«encoding»</code> mistaken for filename in <a href="https://fossies.org/linux/xmlstarlet/src/xml_format.c#l_270" title="Fossies - the Fresh Open Source Software Archive">src/xml_format.c#foProcess()</a>, similarly in <a href="https://fossies.org/linux/xmlstarlet/src/xml_validate.c#l_204" title="Fossies - the Fresh Open Source Software Archive">src/xml_validate.c#valParseOptions()</a>)</li></ul></li>
+<ul><li>if reading from <code>stdin</code> add a <code>-</code> (dash) to
+the command line to work around parsing issues, e.g. if
+<code>format</code>’s <a href="#format-opt-encode"><code>-e (--encode) «encoding»</code></a> is
+the last option (explanation: <code>«encoding»</code> mistaken for
+filename in <a href="https://fossies.org/linux/xmlstarlet/src/xml_format.c#l_270" title="Fossies - the Fresh Open Source Software Archive">src/xml_format.c#foProcess()</a>,
+similarly in <a href="https://fossies.org/linux/xmlstarlet/src/xml_validate.c#l_204" title="Fossies - the Fresh Open Source Software Archive">src/xml_validate.c#valParseOptions()</a>)</li></ul></li>
       </ul>
       <h2 id="version-2022-09-05" class="shew-tgt">Version 2022-09-05<a href="news.html#version-2022-09-05" class="permalink shew-hover"></a></h2>
       <p>Initial release.</p>

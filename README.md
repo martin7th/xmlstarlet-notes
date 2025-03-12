@@ -19,4 +19,4 @@ Available on GitHub Pages as
 [https://martin7th.github.io/xmlstarlet-notes/](https://martin7th.github.io/xmlstarlet-notes/ "xmlstarlet usage notes")  
 [https://martin7th.github.io/xmlstarlet-notes/news.html](https://martin7th.github.io/xmlstarlet-notes/news.html "Release news")
 
-Current version is 2023-08-15.
+Current version is 2025-03-12.
